@@ -29,9 +29,28 @@ final selectedAircraftIdProvider = StateProvider<String?>((ref) => null);
 
 final groundedVisibleProvider = StateProvider<bool>((ref) => true);
 
-/// Latest flight for the selected aircraft (trajectory endpoints).
+/// Seconds until the next fleet refresh (drives the on-map countdown badge).
+final secondsUntilRefreshProvider = StateProvider<int>((ref) => 15);
+
+/// The live (animated/refreshed) aircraft for the current selection. Reads from
+/// the controller so altitude/speed update on each 15s reseed.
+final selectedAircraftProvider = Provider.autoDispose<Aircraft?>((ref) {
+  final id = ref.watch(selectedAircraftIdProvider);
+  if (id == null) return null;
+  for (final a in ref.watch(liveMapControllerProvider)) {
+    if (a.aircraft.id == id) return a.aircraft;
+  }
+  return null;
+});
+
+/// Latest flight for the selected aircraft — only for flying aircraft
+/// (grounded aircraft have no active route). Keyed on id + flying status so it
+/// doesn't refetch on every altitude tick.
 final selectedFlightProvider = FutureProvider.autoDispose<Flight?>((ref) async {
   final id = ref.watch(selectedAircraftIdProvider);
   if (id == null) return null;
+  final flying =
+      ref.watch(selectedAircraftProvider.select((a) => a?.isFlying ?? false));
+  if (!flying) return null;
   return ref.watch(flightRepositoryProvider).fetchLatestFlight(id);
 });

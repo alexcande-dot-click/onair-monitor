@@ -16,26 +16,29 @@ class LiveMapScreen extends ConsumerStatefulWidget {
 }
 
 class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
+  static const _refreshSeconds = 15;
   final _map = MapController();
-  Timer? _poll;
-  Timer? _anim;
+  Timer? _tick;
 
   @override
   void initState() {
     super.initState();
-    _poll = Timer.periodic(const Duration(seconds: 15),
-        (_) => ref.invalidate(fleetProvider));
-    _anim = Timer.periodic(
-        const Duration(seconds: 1),
-        (_) => ref
-            .read(liveMapControllerProvider.notifier)
-            .tick(const Duration(seconds: 1)));
+    ref.read(secondsUntilRefreshProvider.notifier).state = _refreshSeconds;
+    _tick = Timer.periodic(const Duration(seconds: 1), (_) {
+      ref.read(liveMapControllerProvider.notifier).tick(const Duration(seconds: 1));
+      final remaining = ref.read(secondsUntilRefreshProvider) - 1;
+      if (remaining <= 0) {
+        ref.invalidate(fleetProvider);
+        ref.read(secondsUntilRefreshProvider.notifier).state = _refreshSeconds;
+      } else {
+        ref.read(secondsUntilRefreshProvider.notifier).state = remaining;
+      }
+    });
   }
 
   @override
   void dispose() {
-    _poll?.cancel();
-    _anim?.cancel();
+    _tick?.cancel();
     _map.dispose();
     super.dispose();
   }
@@ -47,16 +50,17 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
         CameraFit.coordinates(coordinates: pts, padding: const EdgeInsets.all(48)));
   }
 
-  Future<void> _openDetail(BuildContext context, AnimatedAircraft a) async {
-    ref.read(selectedAircraftIdProvider.notifier).state = a.aircraft.id;
+  Future<void> _openDetail(BuildContext context, String aircraftId) async {
+    ref.read(selectedAircraftIdProvider.notifier).state = aircraftId;
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) => Consumer(builder: (ctx, r, _) {
-        final flight = r.watch(selectedFlightProvider);
+        final aircraft = r.watch(selectedAircraftProvider);
+        if (aircraft == null) return const SizedBox.shrink();
         return BoardingPassSheet(
-          aircraft: a.aircraft,
-          flight: flight.asData?.value,
+          aircraft: aircraft,
+          flight: r.watch(selectedFlightProvider),
           onClose: () => Navigator.of(ctx).pop(),
         );
       }),
@@ -73,13 +77,27 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
     final animated = ref.watch(liveMapControllerProvider);
     final groundedVisible = ref.watch(groundedVisibleProvider);
     final visible = visibleAircraft(animated, groundedVisible: groundedVisible);
+    final selectedId = ref.watch(selectedAircraftIdProvider);
     final selectedFlight = ref.watch(selectedFlightProvider).asData?.value;
 
+    // origin -> aircraft (live position) -> destination
+    LatLng? selectedPos;
+    if (selectedId != null) {
+      for (final a in animated) {
+        if (a.aircraft.id == selectedId) {
+          selectedPos = a.position;
+          break;
+        }
+      }
+    }
     final trajectory = <LatLng>[
-      if (selectedFlight?.departureAirport != null)
+      if (selectedFlight?.departureAirport != null &&
+          selectedFlight?.arrivalIntendedAirport != null &&
+          selectedPos != null) ...[
         selectedFlight!.departureAirport!.position,
-      if (selectedFlight?.arrivalIntendedAirport != null)
-        selectedFlight!.arrivalIntendedAirport!.position,
+        selectedPos,
+        selectedFlight.arrivalIntendedAirport!.position,
+      ],
     ];
 
     return Stack(
@@ -89,6 +107,8 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
           options: const MapOptions(
             initialCenter: LatLng(54, 15),
             initialZoom: 4,
+            minZoom: 2,
+            backgroundColor: AppColors.background,
           ),
           children: [
             TileLayer(
@@ -97,7 +117,7 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
               subdomains: const ['a', 'b', 'c', 'd'],
               userAgentPackageName: 'com.alexcande.onairmonitor',
             ),
-            if (trajectory.length == 2)
+            if (trajectory.length == 3)
               PolylineLayer(polylines: [
                 Polyline(
                     points: trajectory,
@@ -113,7 +133,7 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
                     height: 40,
                     child: AircraftMarker(
                         aircraft: a.aircraft,
-                        onTap: () => _openDetail(context, a)),
+                        onTap: () => _openDetail(context, a.aircraft.id)),
                   ),
               ],
             ),
@@ -122,6 +142,7 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
             ]),
           ],
         ),
+        const Positioned(left: 12, top: 12, child: _RefreshBadge()),
         Positioned(
           right: 12,
           top: 12,
@@ -148,6 +169,38 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Small square badge showing seconds until the next fleet refresh.
+class _RefreshBadge extends ConsumerWidget {
+  const _RefreshBadge();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final secs = ref.watch(secondsUntilRefreshProvider);
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.electricBlue.withValues(alpha: 0.4)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('$secs',
+              style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 16,
+                  height: 1)),
+          const Text('sec',
+              style: TextStyle(color: AppColors.textMuted, fontSize: 9)),
+        ],
+      ),
     );
   }
 }

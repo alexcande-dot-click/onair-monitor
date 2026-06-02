@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/models/aircraft.dart';
 import '../../domain/models/flight.dart';
@@ -13,15 +14,13 @@ class BoardingPassSheet extends StatelessWidget {
   });
 
   final Aircraft aircraft;
-  final Flight? flight;
+
+  /// Latest-flight load state. Only meaningful for flying aircraft.
+  final AsyncValue<Flight?> flight;
   final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
-    final dep = flight?.departureAirport?.icao;
-    final arr = flight?.arrivalIntendedAirport?.icao;
-    final hasRoute = dep != null && arr != null;
-
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(12),
@@ -62,41 +61,68 @@ class BoardingPassSheet extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  if (hasRoute)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _bigCode(dep),
-                        const Icon(Icons.flight_takeoff, color: AppColors.textMuted),
-                        _bigCode(arr),
-                      ],
-                    )
-                  else
-                    const Text('No active route',
-                        style: TextStyle(color: AppColors.textMuted, fontSize: 16)),
+                  _routeSection(),
                   const SizedBox(height: 16),
                   const _Perforation(),
                   const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 24,
-                    runSpacing: 12,
-                    children: [
-                      _field('AIRCRAFT', aircraft.aircraftType?.displayName ?? '—'),
-                      _field('ALT', '${aircraft.altitude.round()} ft'),
-                      _field('GS', '${aircraft.groundSpeed.round()} kt'),
-                      _field('HDG', '${aircraft.heading.round()}°'),
-                      _field('FUEL', '${aircraft.fuelPercent.round()}%'),
-                      _field('COND', '${aircraft.conditionPercent.round()}%'),
-                      if (flight?.paxCount != null) _field('PAX', '${flight!.paxCount}'),
-                      if (flight?.isAI ?? false) _field('CREW', 'AI'),
-                    ],
-                  ),
+                  _details(),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _routeSection() {
+    // Grounded aircraft never show a route.
+    if (!aircraft.isFlying) {
+      final at = aircraft.currentAirport?.icao;
+      return Text(at != null ? 'Parked at $at' : 'On the ground',
+          style: const TextStyle(color: AppColors.textMuted, fontSize: 16));
+    }
+    if (flight.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: SizedBox(
+            height: 26,
+            width: 26,
+            child: CircularProgressIndicator(strokeWidth: 2.5)),
+      );
+    }
+    final f = flight.asData?.value;
+    final dep = f?.departureAirport?.icao;
+    final arr = f?.arrivalIntendedAirport?.icao;
+    if (dep != null && arr != null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _bigCode(dep),
+          const Icon(Icons.flight_takeoff, color: AppColors.textMuted),
+          _bigCode(arr),
+        ],
+      );
+    }
+    return const Text('No active route',
+        style: TextStyle(color: AppColors.textMuted, fontSize: 16));
+  }
+
+  Widget _details() {
+    final f = flight.asData?.value;
+    return Wrap(
+      spacing: 24,
+      runSpacing: 12,
+      children: [
+        _field('AIRCRAFT', aircraft.aircraftType?.displayName ?? '—'),
+        _field('ALT', '${aircraft.altitude.round()} ft'),
+        _field('GS', '${aircraft.groundSpeed.round()} kt'),
+        _field('HDG', '${aircraft.heading.round()}°'),
+        _field('FUEL', '${aircraft.fuelPercent.round()}%'),
+        _field('COND', '${aircraft.conditionPercent.round()}%'),
+        if (aircraft.isFlying && f?.paxCount != null) _field('PAX', '${f!.paxCount}'),
+        if (aircraft.isFlying && (f?.isAI ?? false)) _field('CREW', 'AI'),
+      ],
     );
   }
 

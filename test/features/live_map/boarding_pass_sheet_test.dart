@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:onairmonitor/domain/models/aircraft.dart';
 import 'package:onairmonitor/domain/models/aircraft_type.dart';
@@ -7,7 +8,7 @@ import 'package:onairmonitor/domain/models/flight.dart';
 import 'package:onairmonitor/features/live_map/boarding_pass_sheet.dart';
 
 void main() {
-  const aircraft = Aircraft(
+  const flying = Aircraft(
     id: 'a',
     identifier: 'N8444V',
     aircraftStatusCode: 3,
@@ -19,25 +20,21 @@ void main() {
     aircraftType: AircraftType(displayName: 'DHC Q400', fuelCapacityGallons: 7700),
   );
 
-  testWidgets('shows route, registration, and a working close button',
-      (tester) async {
-    var closed = false;
-    await tester.pumpWidget(MaterialApp(
-      home: Scaffold(
-        body: BoardingPassSheet(
-          aircraft: aircraft,
-          flight: const Flight(
-            id: 'f',
-            departureAirport: Airport(icao: 'EETN'),
-            arrivalIntendedAirport: Airport(icao: 'ENGM'),
-            paxCount: 70,
-          ),
-          onClose: () => closed = true,
-        ),
-      ),
-    ));
+  Widget host(Widget child) => MaterialApp(home: Scaffold(body: child));
 
-    expect(find.text('N8444V'), findsNothing); // it's embedded in the header text
+  testWidgets('flying with route shows origin/dest + working close', (tester) async {
+    var closed = false;
+    await tester.pumpWidget(host(BoardingPassSheet(
+      aircraft: flying,
+      flight: const AsyncData<Flight?>(Flight(
+        id: 'f',
+        departureAirport: Airport(icao: 'EETN'),
+        arrivalIntendedAirport: Airport(icao: 'ENGM'),
+        paxCount: 70,
+      )),
+      onClose: () => closed = true,
+    )));
+
     expect(find.textContaining('N8444V'), findsOneWidget);
     expect(find.text('EETN'), findsOneWidget);
     expect(find.text('ENGM'), findsOneWidget);
@@ -47,12 +44,29 @@ void main() {
     expect(closed, isTrue);
   });
 
-  testWidgets('no flight => shows No active route', (tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: Scaffold(
-        body: BoardingPassSheet(aircraft: aircraft, flight: null, onClose: () {}),
+  testWidgets('flying while loading shows a spinner', (tester) async {
+    await tester.pumpWidget(host(const BoardingPassSheet(
+      aircraft: flying,
+      flight: AsyncLoading<Flight?>(),
+      onClose: _noop,
+    )));
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets('grounded aircraft shows Parked at, never a route', (tester) async {
+    await tester.pumpWidget(host(const BoardingPassSheet(
+      aircraft: Aircraft(
+        id: 'g',
+        identifier: 'N1',
+        aircraftStatusCode: 0,
+        currentAirport: Airport(icao: 'EETN'),
       ),
-    ));
-    expect(find.text('No active route'), findsOneWidget);
+      flight: AsyncData<Flight?>(null),
+      onClose: _noop,
+    )));
+    expect(find.text('Parked at EETN'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 }
+
+void _noop() {}

@@ -21,12 +21,17 @@ class OnAirApiClient {
 
   /// GET [path], inject the api key, unwrap the envelope, map errors.
   /// [keyOverride] lets setup validate a not-yet-saved key.
-  Future<Object?> getJson(String path, {String? keyOverride}) async {
+  /// [query] adds extra query parameters (e.g. `limit`).
+  Future<Object?> getJson(
+    String path, {
+    String? keyOverride,
+    Map<String, dynamic>? query,
+  }) async {
     final key = keyOverride ?? _resolveKey();
     try {
       final res = await _dio.get<Object?>(
         path,
-        queryParameters: {'oa-apikey': key},
+        queryParameters: {'oa-apikey': key, ...?query},
       );
       return unwrapEnvelope(res.data);
     } on DioException catch (e) {

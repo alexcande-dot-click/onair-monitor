@@ -9,7 +9,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
         body: AircraftMarker(
-          aircraft: Aircraft(id: 'a', aircraftStatusCode: 3, heading: 90),
+          aircraft: const Aircraft(id: 'a', aircraftStatusCode: 3, heading: 90),
           onTap: () => tapped = true,
         ),
       ),

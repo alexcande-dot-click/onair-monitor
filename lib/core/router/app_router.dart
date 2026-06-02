@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/dashboard/dashboard_screen.dart';
+import '../../features/live_map/live_map_screen.dart';
 import '../../features/notifications/notifications_screen.dart';
 import '../../features/setup/setup_screen.dart';
 import '../../features/shell/app_shell.dart';
@@ -42,6 +43,15 @@ GoRouter buildRouter(Ref ref) {
           onOpenNotifications: () => context.go(Routes.notifications),
           onAddAccount: () => context.go(Routes.setup),
           body: const DashboardScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.liveMap,
+        builder: (context, state) => AppShell(
+          title: 'Live Map',
+          onOpenNotifications: () => context.go(Routes.notifications),
+          onAddAccount: () => context.go(Routes.setup),
+          body: const LiveMapScreen(),
         ),
       ),
       GoRoute(

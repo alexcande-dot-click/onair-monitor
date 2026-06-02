@@ -11,7 +11,7 @@ import 'account_switcher.dart';
 /// it's listed but disabled (lands in a later phase).
 const _navItems = <(String, IconData, String?)>[
   ('Dashboard', Icons.dashboard, Routes.dashboard),
-  ('Live Map', Icons.map, null),
+  ('Live Map', Icons.map, Routes.liveMap),
   ('Crew', Icons.people, null),
   ('Aircraft', Icons.flight, null),
   ('Jobs', Icons.assignment, null),

@@ -7,7 +7,7 @@ import 'package:onairmonitor/domain/models/flight.dart';
 import 'package:onairmonitor/features/live_map/boarding_pass_sheet.dart';
 
 void main() {
-  final aircraft = Aircraft(
+  const aircraft = Aircraft(
     id: 'a',
     identifier: 'N8444V',
     aircraftStatusCode: 3,
@@ -16,7 +16,7 @@ void main() {
     heading: 263,
     fuelTotalGallons: 3850,
     airframeCondition: 0.96,
-    aircraftType: const AircraftType(displayName: 'DHC Q400', fuelCapacityGallons: 7700),
+    aircraftType: AircraftType(displayName: 'DHC Q400', fuelCapacityGallons: 7700),
   );
 
   testWidgets('shows route, registration, and a working close button',

@@ -18,7 +18,7 @@ void main() {
   });
 
   test('markerColor: flying = amber, grounded = grey', () {
-    expect(markerColor(Aircraft(id: 'a', aircraftStatusCode: 3)), const Color(0xFFFFC42E));
-    expect(markerColor(Aircraft(id: 'b', aircraftStatusCode: 0)), const Color(0xFF8A97A6));
+    expect(markerColor(const Aircraft(id: 'a', aircraftStatusCode: 3)), const Color(0xFFFFC42E));
+    expect(markerColor(const Aircraft(id: 'b', aircraftStatusCode: 0)), const Color(0xFF8A97A6));
   });
 }

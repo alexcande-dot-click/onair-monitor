@@ -2,32 +2,40 @@ import '../data/db/app_database.dart';
 import '../data/repositories/company_repository.dart';
 import '../data/secure/key_store.dart';
 
+/// Tiny mutable bridge holding the active API key. Decouples the API client
+/// from the AccountManager so they don't form a Riverpod dependency cycle.
+class ActiveKeyHolder {
+  String? key;
+}
+
 /// Owns the set of monitored companies, the active selection, and api-key cache.
 class AccountManager {
   AccountManager({
     required AppDatabase db,
     required KeyStore keys,
     required CompanyRepository companyRepo,
+    ActiveKeyHolder? keyHolder,
   })  : _db = db,
         _keys = keys,
-        _companyRepo = companyRepo;
+        _companyRepo = companyRepo,
+        _keyHolder = keyHolder ?? ActiveKeyHolder();
 
   final AppDatabase _db;
   final KeyStore _keys;
   final CompanyRepository _companyRepo;
+  final ActiveKeyHolder _keyHolder;
 
   String? _activeCompanyId;
-  String? _activeApiKey;
 
   String? get activeCompanyId => _activeCompanyId;
-  String? get activeApiKey => _activeApiKey;
+  String? get activeApiKey => _keyHolder.key;
 
   /// Load persisted active account + its key into memory (call at startup).
   Future<void> load() async {
     final active = await _db.activeAccount();
     if (active != null) {
       _activeCompanyId = active.companyId;
-      _activeApiKey = await _keys.read(active.companyId);
+      _keyHolder.key = await _keys.read(active.companyId);
     }
   }
 
@@ -51,13 +59,13 @@ class AccountManager {
     ));
     await _db.setActiveAccount(companyId);
     _activeCompanyId = companyId;
-    _activeApiKey = apiKey;
+    _keyHolder.key = apiKey;
   }
 
   Future<void> switchTo(String companyId) async {
     await _db.setActiveAccount(companyId);
     _activeCompanyId = companyId;
-    _activeApiKey = await _keys.read(companyId);
+    _keyHolder.key = await _keys.read(companyId);
   }
 
   Future<void> removeAccount(String companyId) async {
@@ -67,7 +75,7 @@ class AccountManager {
       final next = await _db.allAccounts();
       if (next.isEmpty) {
         _activeCompanyId = null;
-        _activeApiKey = null;
+        _keyHolder.key = null;
       } else {
         await switchTo(next.first.companyId);
       }

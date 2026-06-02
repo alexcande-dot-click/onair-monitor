@@ -19,3 +19,12 @@ String _thousands(int n) {
   }
   return buf.toString();
 }
+
+String relativeTime(DateTime t, {DateTime? now}) {
+  final ref = now ?? DateTime.now();
+  final d = ref.difference(t);
+  if (d.inSeconds < 45) return 'just now';
+  if (d.inMinutes < 60) return '${d.inMinutes} min ago';
+  if (d.inHours < 24) return '${d.inHours} h ago';
+  return '${d.inDays} d ago';
+}

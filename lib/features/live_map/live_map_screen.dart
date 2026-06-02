@@ -25,7 +25,6 @@ class _LiveMapScreenState extends ConsumerState<LiveMapScreen> {
     super.initState();
     ref.read(secondsUntilRefreshProvider.notifier).state = _refreshSeconds;
     _tick = Timer.periodic(const Duration(seconds: 1), (_) {
-      ref.read(liveMapControllerProvider.notifier).tick(const Duration(seconds: 1));
       final remaining = ref.read(secondsUntilRefreshProvider) - 1;
       if (remaining <= 0) {
         ref.invalidate(fleetProvider);

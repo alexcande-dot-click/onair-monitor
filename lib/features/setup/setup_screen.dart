@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/error/api_failure.dart';
 import '../../core/theme/app_colors.dart';
 import '../../providers/providers.dart';
+import '../../services/notification_service.dart';
 
 class SetupScreen extends ConsumerStatefulWidget {
   const SetupScreen({super.key, required this.onAccountAdded});
@@ -38,6 +39,11 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
             apiKey: _apiKey.text.trim(),
           );
       ref.read(activeAccountRevisionProvider.notifier).state++;
+      // Permission request must never block completing setup.
+      try {
+        await NotificationService(NotificationService.pluginInstance)
+            .requestPermission();
+      } catch (_) {}
       if (mounted) widget.onAccountAdded();
     } on ApiFailure catch (e) {
       setState(() => _error = e.message);

@@ -62,6 +62,11 @@ class AccountManager {
       worldId: company.worldId,
     ));
     await _db.setActiveAccount(companyId);
+    // Seed markers to now so the daemon doesn't backfill ~100 historical
+    // notifications and the bell starts at zero unread.
+    final now = DateTime.now();
+    await _db.setLastPushedEventTime(companyId, now);
+    await _db.setLastViewedEventTime(companyId, now);
     _activeCompanyId = companyId;
     _keyHolder.key = apiKey;
   }

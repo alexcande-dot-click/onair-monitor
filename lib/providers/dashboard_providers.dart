@@ -27,6 +27,14 @@ final notificationsProvider =
   return ref.watch(notificationsRepositoryProvider).fetchNotifications(id);
 });
 
+/// The active company's last-viewed marker (read-state threshold).
+final lastViewedProvider = FutureProvider.autoDispose<DateTime>((ref) async {
+  ref.watch(activeAccountRevisionProvider);
+  final id = ref.watch(accountManagerProvider).activeCompanyId;
+  if (id == null) return DateTime.fromMillisecondsSinceEpoch(0);
+  return ref.watch(appDatabaseProvider).lastViewedEventTime(id);
+});
+
 /// Unread badge for the active company.
 final unreadCountProvider = FutureProvider<int>((ref) async {
   final items = await ref.watch(notificationsProvider.future);

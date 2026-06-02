@@ -67,4 +67,19 @@ void main() {
     expect(mgr.activeApiKey, 'K1');
     expect(mgr.activeCompanyId, 'c1');
   });
+
+  test('addAccount seeds notification markers to ~now (no backfill)', () async {
+    adapter.onGet('/company/c1',
+        (s) => s.reply(200, {'Content': {'Id': 'c1', 'Name': 'A', 'WorldId': 'w'}}),
+        queryParameters: {'oa-apikey': 'K1'});
+
+    final before = DateTime.now().subtract(const Duration(seconds: 2));
+    await mgr.addAccount(companyId: 'c1', apiKey: 'K1');
+
+    final pushed = await db.lastPushedEventTime('c1');
+    final viewed = await db.lastViewedEventTime('c1');
+    expect(pushed, isNotNull);
+    expect(pushed!.isAfter(before), isTrue);
+    expect(viewed.isAfter(before), isTrue);
+  });
 }

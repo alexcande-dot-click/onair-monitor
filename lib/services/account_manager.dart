@@ -1,3 +1,7 @@
+// Private fields are assigned from named params; initializing formals can't be
+// private named params, so this lint doesn't apply here.
+// ignore_for_file: prefer_initializing_formals
+
 import '../data/db/app_database.dart';
 import '../data/repositories/company_repository.dart';
 import '../data/secure/key_store.dart';

@@ -7,6 +7,8 @@ import '../data/repositories/company_repository.dart';
 import '../data/repositories/notifications_repository.dart';
 import '../data/secure/key_store.dart';
 import '../services/account_manager.dart';
+import '../services/foreground_poller.dart';
+import 'dashboard_providers.dart';
 
 /// Overridable singletons.
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
@@ -55,4 +57,13 @@ final activeAccountProvider = FutureProvider((ref) {
 final allAccountsProvider = FutureProvider((ref) {
   ref.watch(activeAccountRevisionProvider);
   return ref.watch(accountManagerProvider).allAccounts();
+});
+
+/// Starts a 60s poller that bumps pollTick; auto-disposes with the app.
+final foregroundPollerProvider = Provider<void>((ref) {
+  final poller = ForegroundPoller(
+    interval: const Duration(seconds: 60),
+    onTick: () => ref.read(pollTickProvider.notifier).state++,
+  )..start();
+  ref.onDispose(poller.stop);
 });

@@ -28,9 +28,13 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            // WorkManager instantiates its Room DB reflectively; R8 shrinking
+            // strips WorkDatabase_Impl.<init> and crashes on startup. Disable
+            // shrinking for release (APK size is not a concern for this app).
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

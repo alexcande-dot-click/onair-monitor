@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/app_info.dart';
+import '../../core/router/routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../providers/dashboard_providers.dart';
 import 'account_switcher.dart';
 
-/// Navigation entries. Only Dashboard is active in Phase 1; the rest are
-/// listed (disabled) so the IA is visible and lands incrementally.
-const _navItems = <(String, IconData, bool)>[
-  ('Dashboard', Icons.dashboard, true),
-  ('Live Map', Icons.map, false),
-  ('Crew', Icons.people, false),
-  ('Aircraft', Icons.flight, false),
-  ('Jobs', Icons.assignment, false),
-  ('Economics', Icons.bar_chart, false),
-  ('FBO', Icons.warehouse, false),
-  ('Airports', Icons.location_on, false),
-  ('About', Icons.info_outline, false),
+/// Navigation entries. A non-null route means the tab is active; null means
+/// it's listed but disabled (lands in a later phase).
+const _navItems = <(String, IconData, String?)>[
+  ('Dashboard', Icons.dashboard, Routes.dashboard),
+  ('Live Map', Icons.map, null),
+  ('Crew', Icons.people, null),
+  ('Aircraft', Icons.flight, null),
+  ('Jobs', Icons.assignment, null),
+  ('Economics', Icons.bar_chart, null),
+  ('FBO', Icons.warehouse, null),
+  ('Airports', Icons.location_on, null),
+  ('About', Icons.info_outline, null),
 ];
 
 class AppShell extends ConsumerWidget {
@@ -83,24 +86,38 @@ class _DrawerContents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DrawerHeader(
-          child: Row(children: [
-            Image.asset('assets/logo.png', height: 40),
-            const SizedBox(width: 12),
-            const Text('OnAir Monitor',
-                style: TextStyle(fontWeight: FontWeight.w700)),
-          ]),
+        SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+            child: Row(children: [
+              Image.asset('assets/logo.png', height: 36),
+              const SizedBox(width: 12),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OnAir Monitor',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 16)),
+                  Text('Version $kAppVersion',
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                ],
+              ),
+            ]),
+          ),
         ),
+        const Divider(height: 1),
         Expanded(
           child: ListView(
             children: [
-              for (final (label, icon, enabled) in _navItems)
+              for (final (label, icon, route) in _navItems)
                 ListTile(
                   leading: Icon(icon),
                   title: Text(label),
                   selected: label == current,
-                  enabled: enabled,
-                  onTap: enabled ? () => Navigator.of(context).maybePop() : null,
+                  enabled: route != null,
+                  onTap: route == null ? null : () => _go(context, route),
                 ),
             ],
           ),
@@ -108,6 +125,18 @@ class _DrawerContents extends StatelessWidget {
         AccountSwitcher(onAddAccount: onAddAccount),
       ],
     );
+  }
+
+  /// Close the drawer if it's open (narrow layout) and navigate.
+  void _go(BuildContext context, String route) {
+    // Capture before popping — the tile's context can become defunct.
+    final router = GoRouter.of(context);
+    final current = GoRouterState.of(context).matchedLocation;
+    final scaffold = Scaffold.maybeOf(context);
+    if (scaffold?.isDrawerOpen ?? false) {
+      Navigator.of(context).pop();
+    }
+    if (current != route) router.go(route);
   }
 }
 

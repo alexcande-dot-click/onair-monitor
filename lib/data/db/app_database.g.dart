@@ -944,6 +944,223 @@ class CrewAssignmentsCompanion extends UpdateCompanion<CrewAssignment> {
   }
 }
 
+class $AircraftNotesTable extends AircraftNotes
+    with TableInfo<$AircraftNotesTable, AircraftNote> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AircraftNotesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _aircraftIdMeta = const VerificationMeta(
+    'aircraftId',
+  );
+  @override
+  late final GeneratedColumn<String> aircraftId = GeneratedColumn<String>(
+    'aircraft_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [aircraftId, note];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'aircraft_notes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AircraftNote> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('aircraft_id')) {
+      context.handle(
+        _aircraftIdMeta,
+        aircraftId.isAcceptableOrUnknown(data['aircraft_id']!, _aircraftIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_aircraftIdMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_noteMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {aircraftId};
+  @override
+  AircraftNote map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AircraftNote(
+      aircraftId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}aircraft_id'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      )!,
+    );
+  }
+
+  @override
+  $AircraftNotesTable createAlias(String alias) {
+    return $AircraftNotesTable(attachedDatabase, alias);
+  }
+}
+
+class AircraftNote extends DataClass implements Insertable<AircraftNote> {
+  final String aircraftId;
+  final String note;
+  const AircraftNote({required this.aircraftId, required this.note});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['aircraft_id'] = Variable<String>(aircraftId);
+    map['note'] = Variable<String>(note);
+    return map;
+  }
+
+  AircraftNotesCompanion toCompanion(bool nullToAbsent) {
+    return AircraftNotesCompanion(
+      aircraftId: Value(aircraftId),
+      note: Value(note),
+    );
+  }
+
+  factory AircraftNote.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AircraftNote(
+      aircraftId: serializer.fromJson<String>(json['aircraftId']),
+      note: serializer.fromJson<String>(json['note']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'aircraftId': serializer.toJson<String>(aircraftId),
+      'note': serializer.toJson<String>(note),
+    };
+  }
+
+  AircraftNote copyWith({String? aircraftId, String? note}) => AircraftNote(
+    aircraftId: aircraftId ?? this.aircraftId,
+    note: note ?? this.note,
+  );
+  AircraftNote copyWithCompanion(AircraftNotesCompanion data) {
+    return AircraftNote(
+      aircraftId: data.aircraftId.present
+          ? data.aircraftId.value
+          : this.aircraftId,
+      note: data.note.present ? data.note.value : this.note,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AircraftNote(')
+          ..write('aircraftId: $aircraftId, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(aircraftId, note);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AircraftNote &&
+          other.aircraftId == this.aircraftId &&
+          other.note == this.note);
+}
+
+class AircraftNotesCompanion extends UpdateCompanion<AircraftNote> {
+  final Value<String> aircraftId;
+  final Value<String> note;
+  final Value<int> rowid;
+  const AircraftNotesCompanion({
+    this.aircraftId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AircraftNotesCompanion.insert({
+    required String aircraftId,
+    required String note,
+    this.rowid = const Value.absent(),
+  }) : aircraftId = Value(aircraftId),
+       note = Value(note);
+  static Insertable<AircraftNote> custom({
+    Expression<String>? aircraftId,
+    Expression<String>? note,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (aircraftId != null) 'aircraft_id': aircraftId,
+      if (note != null) 'note': note,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AircraftNotesCompanion copyWith({
+    Value<String>? aircraftId,
+    Value<String>? note,
+    Value<int>? rowid,
+  }) {
+    return AircraftNotesCompanion(
+      aircraftId: aircraftId ?? this.aircraftId,
+      note: note ?? this.note,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (aircraftId.present) {
+      map['aircraft_id'] = Variable<String>(aircraftId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AircraftNotesCompanion(')
+          ..write('aircraftId: $aircraftId, ')
+          ..write('note: $note, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -953,6 +1170,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CrewAssignmentsTable crewAssignments = $CrewAssignmentsTable(
     this,
   );
+  late final $AircraftNotesTable aircraftNotes = $AircraftNotesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -961,6 +1179,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     accounts,
     notificationMarkers,
     crewAssignments,
+    aircraftNotes,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -1517,6 +1736,151 @@ typedef $$CrewAssignmentsTableProcessedTableManager =
       CrewAssignment,
       PrefetchHooks Function()
     >;
+typedef $$AircraftNotesTableCreateCompanionBuilder =
+    AircraftNotesCompanion Function({
+      required String aircraftId,
+      required String note,
+      Value<int> rowid,
+    });
+typedef $$AircraftNotesTableUpdateCompanionBuilder =
+    AircraftNotesCompanion Function({
+      Value<String> aircraftId,
+      Value<String> note,
+      Value<int> rowid,
+    });
+
+class $$AircraftNotesTableFilterComposer
+    extends Composer<_$AppDatabase, $AircraftNotesTable> {
+  $$AircraftNotesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AircraftNotesTableOrderingComposer
+    extends Composer<_$AppDatabase, $AircraftNotesTable> {
+  $$AircraftNotesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AircraftNotesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AircraftNotesTable> {
+  $$AircraftNotesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+}
+
+class $$AircraftNotesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AircraftNotesTable,
+          AircraftNote,
+          $$AircraftNotesTableFilterComposer,
+          $$AircraftNotesTableOrderingComposer,
+          $$AircraftNotesTableAnnotationComposer,
+          $$AircraftNotesTableCreateCompanionBuilder,
+          $$AircraftNotesTableUpdateCompanionBuilder,
+          (
+            AircraftNote,
+            BaseReferences<_$AppDatabase, $AircraftNotesTable, AircraftNote>,
+          ),
+          AircraftNote,
+          PrefetchHooks Function()
+        > {
+  $$AircraftNotesTableTableManager(_$AppDatabase db, $AircraftNotesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AircraftNotesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AircraftNotesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AircraftNotesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> aircraftId = const Value.absent(),
+                Value<String> note = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AircraftNotesCompanion(
+                aircraftId: aircraftId,
+                note: note,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String aircraftId,
+                required String note,
+                Value<int> rowid = const Value.absent(),
+              }) => AircraftNotesCompanion.insert(
+                aircraftId: aircraftId,
+                note: note,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AircraftNotesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AircraftNotesTable,
+      AircraftNote,
+      $$AircraftNotesTableFilterComposer,
+      $$AircraftNotesTableOrderingComposer,
+      $$AircraftNotesTableAnnotationComposer,
+      $$AircraftNotesTableCreateCompanionBuilder,
+      $$AircraftNotesTableUpdateCompanionBuilder,
+      (
+        AircraftNote,
+        BaseReferences<_$AppDatabase, $AircraftNotesTable, AircraftNote>,
+      ),
+      AircraftNote,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1527,4 +1891,6 @@ class $AppDatabaseManager {
       $$NotificationMarkersTableTableManager(_db, _db.notificationMarkers);
   $$CrewAssignmentsTableTableManager get crewAssignments =>
       $$CrewAssignmentsTableTableManager(_db, _db.crewAssignments);
+  $$AircraftNotesTableTableManager get aircraftNotes =>
+      $$AircraftNotesTableTableManager(_db, _db.aircraftNotes);
 }

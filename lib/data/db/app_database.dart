@@ -50,19 +50,29 @@ class CrewAssignments extends Table {
   Set<Column> get primaryKey => {employeeId};
 }
 
-@DriftDatabase(tables: [Accounts, NotificationMarkers, CrewAssignments])
+/// Device-only free-text route notes per aircraft.
+class AircraftNotes extends Table {
+  TextColumn get aircraftId => text()();
+  TextColumn get note => text()();
+
+  @override
+  Set<Column> get primaryKey => {aircraftId};
+}
+
+@DriftDatabase(tables: [Accounts, NotificationMarkers, CrewAssignments, AircraftNotes])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) => m.createAll(),
         onUpgrade: (m, from, to) async {
           if (from < 2) await m.createTable(crewAssignments);
+          if (from < 3) await m.createTable(aircraftNotes);
         },
       );
 
@@ -151,6 +161,26 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> unassignCrew(String employeeId) =>
       (delete(crewAssignments)..where((t) => t.employeeId.equals(employeeId))).go();
+
+  // --- aircraft notes (device-only) ---
+  Future<Map<String, String>> readAircraftNotes() async {
+    final rows = await select(aircraftNotes).get();
+    return {for (final r in rows) r.aircraftId: r.note};
+  }
+
+  Future<void> setAircraftNote(String aircraftId, String note) async {
+    final trimmed = note.trim();
+    if (trimmed.isEmpty) {
+      await deleteAircraftNote(aircraftId);
+      return;
+    }
+    await into(aircraftNotes).insertOnConflictUpdate(
+      AircraftNotesCompanion.insert(aircraftId: aircraftId, note: trimmed),
+    );
+  }
+
+  Future<void> deleteAircraftNote(String aircraftId) =>
+      (delete(aircraftNotes)..where((t) => t.aircraftId.equals(aircraftId))).go();
 }
 
 LazyDatabase _openConnection() => LazyDatabase(() async {

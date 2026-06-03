@@ -1,0 +1,13 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import '../../providers/providers.dart';
+import 'aircraft_logic.dart';
+
+/// aircraftId -> note (device-only). Shared across tabs.
+final aircraftNotesProvider = FutureProvider<Map<String, String>>((ref) {
+  return ref.watch(appDatabaseProvider).readAircraftNotes();
+});
+
+final aircraftStatusFilterProvider =
+    StateProvider<AircraftStatusFilter>((ref) => AircraftStatusFilter.all);
+final aircraftQueryProvider = StateProvider<String>((ref) => '');

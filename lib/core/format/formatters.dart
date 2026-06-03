@@ -28,3 +28,14 @@ String relativeTime(DateTime t, {DateTime? now}) {
   if (d.inHours < 24) return '${d.inHours} h ago';
   return '${d.inDays} d ago';
 }
+
+/// Time remaining until [t] (future), e.g. "2h 10m", "45m", "<1m", "0m".
+String relativeUntil(DateTime t, {DateTime? now}) {
+  final ref = now ?? DateTime.now();
+  final d = t.difference(ref);
+  if (d.inSeconds <= 0) return '0m';
+  if (d.inSeconds < 60) return '<1m';
+  final h = d.inHours;
+  final m = d.inMinutes % 60;
+  return h > 0 ? '${h}h ${m}m' : '${m}m';
+}

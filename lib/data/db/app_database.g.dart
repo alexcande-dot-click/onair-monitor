@@ -722,12 +722,237 @@ class NotificationMarkersCompanion extends UpdateCompanion<NotificationMarker> {
   }
 }
 
+class $CrewAssignmentsTable extends CrewAssignments
+    with TableInfo<$CrewAssignmentsTable, CrewAssignment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CrewAssignmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _employeeIdMeta = const VerificationMeta(
+    'employeeId',
+  );
+  @override
+  late final GeneratedColumn<String> employeeId = GeneratedColumn<String>(
+    'employee_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _aircraftIdMeta = const VerificationMeta(
+    'aircraftId',
+  );
+  @override
+  late final GeneratedColumn<String> aircraftId = GeneratedColumn<String>(
+    'aircraft_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [employeeId, aircraftId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'crew_assignments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CrewAssignment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('employee_id')) {
+      context.handle(
+        _employeeIdMeta,
+        employeeId.isAcceptableOrUnknown(data['employee_id']!, _employeeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_employeeIdMeta);
+    }
+    if (data.containsKey('aircraft_id')) {
+      context.handle(
+        _aircraftIdMeta,
+        aircraftId.isAcceptableOrUnknown(data['aircraft_id']!, _aircraftIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_aircraftIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {employeeId};
+  @override
+  CrewAssignment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CrewAssignment(
+      employeeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}employee_id'],
+      )!,
+      aircraftId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}aircraft_id'],
+      )!,
+    );
+  }
+
+  @override
+  $CrewAssignmentsTable createAlias(String alias) {
+    return $CrewAssignmentsTable(attachedDatabase, alias);
+  }
+}
+
+class CrewAssignment extends DataClass implements Insertable<CrewAssignment> {
+  final String employeeId;
+  final String aircraftId;
+  const CrewAssignment({required this.employeeId, required this.aircraftId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['employee_id'] = Variable<String>(employeeId);
+    map['aircraft_id'] = Variable<String>(aircraftId);
+    return map;
+  }
+
+  CrewAssignmentsCompanion toCompanion(bool nullToAbsent) {
+    return CrewAssignmentsCompanion(
+      employeeId: Value(employeeId),
+      aircraftId: Value(aircraftId),
+    );
+  }
+
+  factory CrewAssignment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CrewAssignment(
+      employeeId: serializer.fromJson<String>(json['employeeId']),
+      aircraftId: serializer.fromJson<String>(json['aircraftId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'employeeId': serializer.toJson<String>(employeeId),
+      'aircraftId': serializer.toJson<String>(aircraftId),
+    };
+  }
+
+  CrewAssignment copyWith({String? employeeId, String? aircraftId}) =>
+      CrewAssignment(
+        employeeId: employeeId ?? this.employeeId,
+        aircraftId: aircraftId ?? this.aircraftId,
+      );
+  CrewAssignment copyWithCompanion(CrewAssignmentsCompanion data) {
+    return CrewAssignment(
+      employeeId: data.employeeId.present
+          ? data.employeeId.value
+          : this.employeeId,
+      aircraftId: data.aircraftId.present
+          ? data.aircraftId.value
+          : this.aircraftId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CrewAssignment(')
+          ..write('employeeId: $employeeId, ')
+          ..write('aircraftId: $aircraftId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(employeeId, aircraftId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CrewAssignment &&
+          other.employeeId == this.employeeId &&
+          other.aircraftId == this.aircraftId);
+}
+
+class CrewAssignmentsCompanion extends UpdateCompanion<CrewAssignment> {
+  final Value<String> employeeId;
+  final Value<String> aircraftId;
+  final Value<int> rowid;
+  const CrewAssignmentsCompanion({
+    this.employeeId = const Value.absent(),
+    this.aircraftId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CrewAssignmentsCompanion.insert({
+    required String employeeId,
+    required String aircraftId,
+    this.rowid = const Value.absent(),
+  }) : employeeId = Value(employeeId),
+       aircraftId = Value(aircraftId);
+  static Insertable<CrewAssignment> custom({
+    Expression<String>? employeeId,
+    Expression<String>? aircraftId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (employeeId != null) 'employee_id': employeeId,
+      if (aircraftId != null) 'aircraft_id': aircraftId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CrewAssignmentsCompanion copyWith({
+    Value<String>? employeeId,
+    Value<String>? aircraftId,
+    Value<int>? rowid,
+  }) {
+    return CrewAssignmentsCompanion(
+      employeeId: employeeId ?? this.employeeId,
+      aircraftId: aircraftId ?? this.aircraftId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (employeeId.present) {
+      map['employee_id'] = Variable<String>(employeeId.value);
+    }
+    if (aircraftId.present) {
+      map['aircraft_id'] = Variable<String>(aircraftId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CrewAssignmentsCompanion(')
+          ..write('employeeId: $employeeId, ')
+          ..write('aircraftId: $aircraftId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $AccountsTable accounts = $AccountsTable(this);
   late final $NotificationMarkersTable notificationMarkers =
       $NotificationMarkersTable(this);
+  late final $CrewAssignmentsTable crewAssignments = $CrewAssignmentsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -735,6 +960,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     accounts,
     notificationMarkers,
+    crewAssignments,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -1138,6 +1364,159 @@ typedef $$NotificationMarkersTableProcessedTableManager =
       NotificationMarker,
       PrefetchHooks Function()
     >;
+typedef $$CrewAssignmentsTableCreateCompanionBuilder =
+    CrewAssignmentsCompanion Function({
+      required String employeeId,
+      required String aircraftId,
+      Value<int> rowid,
+    });
+typedef $$CrewAssignmentsTableUpdateCompanionBuilder =
+    CrewAssignmentsCompanion Function({
+      Value<String> employeeId,
+      Value<String> aircraftId,
+      Value<int> rowid,
+    });
+
+class $$CrewAssignmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $CrewAssignmentsTable> {
+  $$CrewAssignmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get employeeId => $composableBuilder(
+    column: $table.employeeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CrewAssignmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CrewAssignmentsTable> {
+  $$CrewAssignmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get employeeId => $composableBuilder(
+    column: $table.employeeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CrewAssignmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CrewAssignmentsTable> {
+  $$CrewAssignmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get employeeId => $composableBuilder(
+    column: $table.employeeId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get aircraftId => $composableBuilder(
+    column: $table.aircraftId,
+    builder: (column) => column,
+  );
+}
+
+class $$CrewAssignmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CrewAssignmentsTable,
+          CrewAssignment,
+          $$CrewAssignmentsTableFilterComposer,
+          $$CrewAssignmentsTableOrderingComposer,
+          $$CrewAssignmentsTableAnnotationComposer,
+          $$CrewAssignmentsTableCreateCompanionBuilder,
+          $$CrewAssignmentsTableUpdateCompanionBuilder,
+          (
+            CrewAssignment,
+            BaseReferences<
+              _$AppDatabase,
+              $CrewAssignmentsTable,
+              CrewAssignment
+            >,
+          ),
+          CrewAssignment,
+          PrefetchHooks Function()
+        > {
+  $$CrewAssignmentsTableTableManager(
+    _$AppDatabase db,
+    $CrewAssignmentsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CrewAssignmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CrewAssignmentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CrewAssignmentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> employeeId = const Value.absent(),
+                Value<String> aircraftId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CrewAssignmentsCompanion(
+                employeeId: employeeId,
+                aircraftId: aircraftId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String employeeId,
+                required String aircraftId,
+                Value<int> rowid = const Value.absent(),
+              }) => CrewAssignmentsCompanion.insert(
+                employeeId: employeeId,
+                aircraftId: aircraftId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CrewAssignmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CrewAssignmentsTable,
+      CrewAssignment,
+      $$CrewAssignmentsTableFilterComposer,
+      $$CrewAssignmentsTableOrderingComposer,
+      $$CrewAssignmentsTableAnnotationComposer,
+      $$CrewAssignmentsTableCreateCompanionBuilder,
+      $$CrewAssignmentsTableUpdateCompanionBuilder,
+      (
+        CrewAssignment,
+        BaseReferences<_$AppDatabase, $CrewAssignmentsTable, CrewAssignment>,
+      ),
+      CrewAssignment,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1146,4 +1525,6 @@ class $AppDatabaseManager {
       $$AccountsTableTableManager(_db, _db.accounts);
   $$NotificationMarkersTableTableManager get notificationMarkers =>
       $$NotificationMarkersTableTableManager(_db, _db.notificationMarkers);
+  $$CrewAssignmentsTableTableManager get crewAssignments =>
+      $$CrewAssignmentsTableTableManager(_db, _db.crewAssignments);
 }

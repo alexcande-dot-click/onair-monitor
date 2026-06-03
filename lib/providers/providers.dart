@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import '../data/api/onair_api_client.dart';
 import '../data/db/app_database.dart';
 import '../data/repositories/company_repository.dart';
+import '../data/repositories/employee_repository.dart';
 import '../data/repositories/fleet_repository.dart';
 import '../data/repositories/flight_repository.dart';
 import '../data/repositories/notifications_repository.dart';
@@ -44,6 +45,9 @@ final fleetRepositoryProvider = Provider<FleetRepository>(
 
 final flightRepositoryProvider = Provider<FlightRepository>(
     (ref) => FlightRepository(ref.watch(apiClientProvider)));
+
+final employeeRepositoryProvider = Provider<EmployeeRepository>(
+    (ref) => EmployeeRepository(ref.watch(apiClientProvider)));
 
 final accountManagerProvider = Provider<AccountManager>((ref) => AccountManager(
       db: ref.watch(appDatabaseProvider),

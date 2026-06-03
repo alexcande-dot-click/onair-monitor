@@ -41,13 +41,30 @@ class NotificationMarkers extends Table {
   Set<Column> get primaryKey => {companyId};
 }
 
-@DriftDatabase(tables: [Accounts, NotificationMarkers])
+/// Device-only crew→aircraft planning assignments (never pushed to the API).
+class CrewAssignments extends Table {
+  TextColumn get employeeId => text()();
+  TextColumn get aircraftId => text()();
+
+  @override
+  Set<Column> get primaryKey => {employeeId};
+}
+
+@DriftDatabase(tables: [Accounts, NotificationMarkers, CrewAssignments])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          if (from < 2) await m.createTable(crewAssignments);
+        },
+      );
 
   static final _epoch = DateTime.fromMillisecondsSinceEpoch(0);
 
@@ -119,6 +136,21 @@ class AppDatabase extends _$AppDatabase {
           lastPushedEventTime: Value(t),
         ),
       );
+
+  // --- crew assignments (device-only) ---
+  Future<Map<String, String>> readCrewAssignments() async {
+    final rows = await select(crewAssignments).get();
+    return {for (final r in rows) r.employeeId: r.aircraftId};
+  }
+
+  Future<void> assignCrew(String employeeId, String aircraftId) =>
+      into(crewAssignments).insertOnConflictUpdate(CrewAssignmentsCompanion.insert(
+        employeeId: employeeId,
+        aircraftId: aircraftId,
+      ));
+
+  Future<void> unassignCrew(String employeeId) =>
+      (delete(crewAssignments)..where((t) => t.employeeId.equals(employeeId))).go();
 }
 
 LazyDatabase _openConnection() => LazyDatabase(() async {

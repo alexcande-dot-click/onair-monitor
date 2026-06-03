@@ -10,9 +10,9 @@ void main() {
   testWidgets('shows pending jobs with pay; category chip filters', (tester) async {
     await tester.pumpWidget(ProviderScope(
       overrides: [
-        pendingJobsProvider.overrideWith((ref) async => [
-              Mission(id: 'm1', categoryCode: 0, pay: 1000, mainAirport: const Airport(icao: 'EETN')),
-              Mission(id: 'm2', categoryCode: 1, pay: 2000, mainAirport: const Airport(icao: 'ENGM')),
+        pendingJobsProvider.overrideWith((ref) async => const [
+              Mission(id: 'm1', categoryCode: 0, pay: 1000, mainAirport: Airport(icao: 'EETN')),
+              Mission(id: 'm2', categoryCode: 1, pay: 2000, mainAirport: Airport(icao: 'ENGM')),
             ]),
         completedJobsProvider.overrideWith((ref) async => const <Mission>[]),
       ],

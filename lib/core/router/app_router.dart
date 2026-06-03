@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/aircraft/aircraft_screen.dart';
 import '../../features/crew/crew_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/live_map/live_map_screen.dart';
@@ -62,6 +63,15 @@ GoRouter buildRouter(Ref ref) {
           onOpenNotifications: () => context.go(Routes.notifications),
           onAddAccount: () => context.go(Routes.setup),
           body: const CrewScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.aircraft,
+        builder: (context, state) => AppShell(
+          title: 'Aircraft',
+          onOpenNotifications: () => context.go(Routes.notifications),
+          onAddAccount: () => context.go(Routes.setup),
+          body: const AircraftScreen(),
         ),
       ),
       GoRoute(

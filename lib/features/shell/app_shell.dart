@@ -13,7 +13,7 @@ const _navItems = <(String, IconData, String?)>[
   ('Dashboard', Icons.dashboard, Routes.dashboard),
   ('Live Map', Icons.map, Routes.liveMap),
   ('Crew', Icons.people, Routes.crew),
-  ('Aircraft', Icons.flight, null),
+  ('Aircraft', Icons.flight, Routes.aircraft),
   ('Jobs', Icons.assignment, null),
   ('Economics', Icons.bar_chart, null),
   ('FBO', Icons.warehouse, null),

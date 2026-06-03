@@ -4,4 +4,5 @@ abstract final class Routes {
   static const notifications = '/notifications';
   static const liveMap = '/live-map';
   static const crew = '/crew';
+  static const aircraft = '/aircraft';
 }

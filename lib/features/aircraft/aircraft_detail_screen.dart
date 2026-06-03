@@ -51,6 +51,7 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
           _kv('Condition', '${a.conditionPercent.round()}%'),
           _kv('Fuel', '${a.fuelPercent.round()}%'),
           if (a.isFlying) ...[
+            _routeRow(ref, a.id),
             _kv('Altitude', '${a.altitude.round()} ft'),
             _kv('Ground speed', '${a.groundSpeed.round()} kt'),
             _kv('Heading', '${a.heading.round()}°'),
@@ -100,10 +101,17 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
             FilledButton(
               key: const Key('saveNote'),
               onPressed: () async {
+                final cleared = _noteCtrl.text.trim().isEmpty;
                 await ref
                     .read(appDatabaseProvider)
                     .setAircraftNote(a.id, _noteCtrl.text);
                 ref.invalidate(aircraftNotesProvider);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(cleared ? 'Route note cleared' : 'Route note saved'),
+                    duration: const Duration(seconds: 2),
+                  ));
+                }
               },
               child: const Text('Save'),
             ),
@@ -113,6 +121,12 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
                 _noteCtrl.clear();
                 await ref.read(appDatabaseProvider).deleteAircraftNote(a.id);
                 ref.invalidate(aircraftNotesProvider);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Route note cleared'),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
               },
               child: const Text('Clear'),
             ),
@@ -120,6 +134,21 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
         ],
       ),
     );
+  }
+
+  /// Origin → destination from the aircraft's latest flight (flying only).
+  Widget _routeRow(WidgetRef ref, String aircraftId) {
+    final flight = ref.watch(aircraftLatestFlightProvider(aircraftId));
+    final value = flight.when(
+      loading: () => '…',
+      error: (_, _) => '—',
+      data: (f) {
+        final dep = f?.departureAirport?.icao;
+        final arr = f?.arrivalIntendedAirport?.icao;
+        return (dep != null && arr != null) ? '$dep → $arr' : '—';
+      },
+    );
+    return _kv('Route', value);
   }
 
   Widget _kv(String k, String v) => Padding(

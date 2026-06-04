@@ -5,6 +5,7 @@ import '../../features/aircraft/aircraft_screen.dart';
 import '../../features/crew/crew_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/economics/economics_screen.dart';
+import '../../features/fbo/fbo_screen.dart';
 import '../../features/jobs/jobs_work_orders_screen.dart';
 import '../../features/live_map/live_map_screen.dart';
 import '../../features/notifications/notifications_screen.dart';
@@ -92,6 +93,15 @@ GoRouter buildRouter(Ref ref) {
           onOpenNotifications: () => context.go(Routes.notifications),
           onAddAccount: () => context.go(Routes.setup),
           body: const EconomicsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.fbo,
+        builder: (context, state) => AppShell(
+          title: 'FBO',
+          onOpenNotifications: () => context.go(Routes.notifications),
+          onAddAccount: () => context.go(Routes.setup),
+          body: const FboScreen(),
         ),
       ),
       GoRoute(

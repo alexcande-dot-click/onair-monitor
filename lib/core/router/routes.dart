@@ -7,4 +7,5 @@ abstract final class Routes {
   static const aircraft = '/aircraft';
   static const jobs = '/jobs';
   static const economics = '/economics';
+  static const fbo = '/fbo';
 }

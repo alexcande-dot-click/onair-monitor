@@ -3,16 +3,40 @@ import 'package:onairmonitor/core/router/app_router.dart';
 import 'package:onairmonitor/core/router/routes.dart';
 
 void main() {
-  test('no account → force setup', () {
-    expect(redirectFor(hasAccount: false, location: Routes.dashboard), Routes.setup);
+  test('no consent → force consent', () {
+    expect(
+        redirectFor(
+            consentAccepted: false,
+            hasAccount: false,
+            location: Routes.dashboard),
+        Routes.consent);
   });
-  test('no account already on setup → no redirect', () {
-    expect(redirectFor(hasAccount: false, location: Routes.setup), isNull);
+  test('no consent, already on consent → no redirect', () {
+    expect(
+        redirectFor(
+            consentAccepted: false, hasAccount: false, location: Routes.consent),
+        isNull);
   });
-  test('has account on setup → go to dashboard', () {
-    expect(redirectFor(hasAccount: true, location: Routes.setup), Routes.dashboard);
+  test('consent + no account → force setup', () {
+    expect(
+        redirectFor(
+            consentAccepted: true,
+            hasAccount: false,
+            location: Routes.dashboard),
+        Routes.setup);
   });
-  test('has account elsewhere → no redirect', () {
-    expect(redirectFor(hasAccount: true, location: Routes.dashboard), isNull);
+  test('consent + has account on setup → dashboard', () {
+    expect(
+        redirectFor(
+            consentAccepted: true, hasAccount: true, location: Routes.setup),
+        Routes.dashboard);
+  });
+  test('consent + has account elsewhere → no redirect', () {
+    expect(
+        redirectFor(
+            consentAccepted: true,
+            hasAccount: true,
+            location: Routes.dashboard),
+        isNull);
   });
 }

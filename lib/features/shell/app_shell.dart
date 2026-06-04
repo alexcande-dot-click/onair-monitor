@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import '../../core/app_info.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/app_colors.dart';
+import '../../providers/app_providers.dart';
 import '../../providers/dashboard_providers.dart';
+import '../about/about_screen.dart' show openUrl;
 import 'account_switcher.dart';
 
 /// Navigation entries. A non-null route means the tab is active; null means
@@ -58,15 +60,65 @@ class AppShell extends ConsumerWidget {
         ],
       ),
       drawer: wide ? null : Drawer(child: drawer),
-      body: wide
-          ? Row(children: [
-              SizedBox(
-                  width: 280,
-                  child: Material(color: AppColors.surface, child: drawer)),
-              const VerticalDivider(width: 1),
-              Expanded(child: body),
-            ])
-          : body,
+      body: Column(
+        children: [
+          const _UpdateBanner(),
+          Expanded(
+            child: wide
+                ? Row(children: [
+                    SizedBox(
+                        width: 280,
+                        child:
+                            Material(color: AppColors.surface, child: drawer)),
+                    const VerticalDivider(width: 1),
+                    Expanded(child: body),
+                  ])
+                : body,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Thin banner shown when a newer version is published on GitHub. "Later"
+/// hides it for a day; "Update" opens the latest release page.
+class _UpdateBanner extends ConsumerWidget {
+  const _UpdateBanner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final version = ref.watch(updateBannerProvider).asData?.value;
+    if (version == null) return const SizedBox.shrink();
+    return Material(
+      color: AppColors.electricBlue,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 6, 4, 6),
+        child: Row(children: [
+          const Icon(Icons.system_update, size: 18, color: Color(0xFF04222E)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text('Update available: v$version',
+                style: const TextStyle(
+                    color: Color(0xFF04222E), fontWeight: FontWeight.w600)),
+          ),
+          TextButton(
+            onPressed: () => openUrl(kLatestReleaseUrl),
+            child: const Text('Update',
+                style: TextStyle(color: Color(0xFF04222E))),
+          ),
+          TextButton(
+            onPressed: () async {
+              await ref
+                  .read(appPrefsProvider)
+                  .dismissBannerFor(const Duration(days: 1));
+              ref.invalidate(updateBannerProvider);
+            },
+            child: const Text('Later',
+                style: TextStyle(color: Color(0xFF04222E))),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/about/about_screen.dart';
 import '../../features/aircraft/aircraft_screen.dart';
+import '../../features/consent/consent_screen.dart';
 import '../../features/airports/airports_screen.dart';
 import '../../features/crew/crew_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
@@ -12,11 +13,21 @@ import '../../features/live_map/live_map_screen.dart';
 import '../../features/notifications/notifications_screen.dart';
 import '../../features/setup/setup_screen.dart';
 import '../../features/shell/app_shell.dart';
+import '../../providers/app_providers.dart';
 import '../../providers/providers.dart';
 import 'routes.dart';
 
 /// Pure redirect decision (unit-tested).
-String? redirectFor({required bool hasAccount, required String location}) {
+String? redirectFor({
+  required bool consentAccepted,
+  required bool hasAccount,
+  required String location,
+}) {
+  if (!consentAccepted) {
+    return location == Routes.consent ? null : Routes.consent;
+  }
+  // Consent accepted: never stay on the consent screen.
+  if (location == Routes.consent) return Routes.dashboard;
   if (!hasAccount) return location == Routes.setup ? null : Routes.setup;
   if (location == Routes.setup) return Routes.dashboard;
   return null;
@@ -29,13 +40,22 @@ GoRouter buildRouter(Ref ref) {
   return GoRouter(
     initialLocation: Routes.dashboard,
     redirect: (context, state) {
+      final consentAccepted = ref.read(consentAcceptedProvider);
       final hasAccount =
           ref.read(accountManagerProvider).activeCompanyId != null;
       return redirectFor(
-          hasAccount: hasAccount, location: state.matchedLocation);
+          consentAccepted: consentAccepted,
+          hasAccount: hasAccount,
+          location: state.matchedLocation);
     },
     refreshListenable: _RevisionListenable(ref),
     routes: [
+      GoRoute(
+        path: Routes.consent,
+        builder: (context, state) => ConsentScreen(
+          onAccepted: () => context.go(Routes.dashboard),
+        ),
+      ),
       GoRoute(
         path: Routes.setup,
         builder: (context, state) => SetupScreen(

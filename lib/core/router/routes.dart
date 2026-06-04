@@ -1,4 +1,5 @@
 abstract final class Routes {
+  static const consent = '/consent';
   static const setup = '/setup';
   static const dashboard = '/';
   static const notifications = '/notifications';

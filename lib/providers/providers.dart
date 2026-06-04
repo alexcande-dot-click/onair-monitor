@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../data/api/onair_api_client.dart';
 import '../data/db/app_database.dart';
+import '../data/repositories/airport_repository.dart';
 import '../data/repositories/company_repository.dart';
 import '../data/repositories/economics_repository.dart';
 import '../data/repositories/employee_repository.dart';
@@ -64,6 +65,9 @@ final economicsRepositoryProvider = Provider<EconomicsRepository>(
 
 final fboRepositoryProvider = Provider<FboRepository>(
     (ref) => FboRepository(ref.watch(apiClientProvider)));
+
+final airportRepositoryProvider = Provider<AirportRepository>(
+    (ref) => AirportRepository(ref.watch(apiClientProvider)));
 
 final accountManagerProvider = Provider<AccountManager>((ref) => AccountManager(
       db: ref.watch(appDatabaseProvider),

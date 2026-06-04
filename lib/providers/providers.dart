@@ -10,9 +10,7 @@ import '../data/repositories/employee_repository.dart';
 import '../data/repositories/fbo_repository.dart';
 import '../data/repositories/fleet_repository.dart';
 import '../data/repositories/flight_repository.dart';
-import '../data/repositories/jobs_repository.dart';
 import '../data/repositories/notifications_repository.dart';
-import '../data/repositories/work_order_repository.dart';
 import '../data/secure/key_store.dart';
 import '../services/account_manager.dart';
 import '../services/foreground_poller.dart';
@@ -53,12 +51,6 @@ final flightRepositoryProvider = Provider<FlightRepository>(
 
 final employeeRepositoryProvider = Provider<EmployeeRepository>(
     (ref) => EmployeeRepository(ref.watch(apiClientProvider)));
-
-final jobsRepositoryProvider = Provider<JobsRepository>(
-    (ref) => JobsRepository(ref.watch(apiClientProvider)));
-
-final workOrderRepositoryProvider = Provider<WorkOrderRepository>(
-    (ref) => WorkOrderRepository(ref.watch(apiClientProvider)));
 
 final economicsRepositoryProvider = Provider<EconomicsRepository>(
     (ref) => EconomicsRepository(ref.watch(apiClientProvider)));

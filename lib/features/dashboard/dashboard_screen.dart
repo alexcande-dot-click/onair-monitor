@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/format/formatters.dart';
+import '../../core/router/routes.dart';
 import '../../providers/dashboard_providers.dart';
 import 'kpi_card.dart';
 
@@ -29,16 +31,16 @@ class DashboardScreen extends ConsumerWidget {
           ],
         ),
         data: (k) {
+          void go(String route) => context.go(route);
           final tiles = <Widget>[
-            KpiCard(label: 'Cash', value: formatMoney(k.cash), icon: Icons.payments),
-            KpiCard(label: 'Company Value', value: formatMoney(k.value), icon: Icons.account_balance),
-            KpiCard(label: 'Aircraft', value: '${k.aircraftTotal}', icon: Icons.flight),
-            KpiCard(label: 'Flying now', value: '${k.aircraftFlying}', icon: Icons.flight_takeoff),
-            KpiCard(label: 'Active missions', value: '${k.missionsActive}', icon: Icons.assignment),
-            KpiCard(label: 'Employees', value: '${k.employees}', icon: Icons.people),
-            KpiCard(label: 'FBOs', value: '${k.fbos}', icon: Icons.warehouse),
+            KpiCard(label: 'Cash', value: formatMoney(k.cash), icon: Icons.payments, onTap: () => go(Routes.economics)),
+            KpiCard(label: 'Company Value', value: formatMoney(k.value), icon: Icons.account_balance, onTap: () => go(Routes.economics)),
+            KpiCard(label: 'Aircraft', value: '${k.aircraftTotal}', icon: Icons.flight, onTap: () => go(Routes.aircraft)),
+            KpiCard(label: 'Flying now', value: '${k.aircraftFlying}', icon: Icons.flight_takeoff, onTap: () => go(Routes.liveMap)),
+            KpiCard(label: 'Employees', value: '${k.employees}', icon: Icons.people, onTap: () => go(Routes.crew)),
+            KpiCard(label: 'FBOs', value: '${k.fbos}', icon: Icons.warehouse, onTap: () => go(Routes.fbo)),
             KpiCard(label: 'Level ${k.level}', value: '${k.xp}/${k.xpNeeded} XP', icon: Icons.star),
-            KpiCard(label: 'Income (1 week)', value: formatMoney(k.incomes1Week), icon: Icons.trending_up),
+            KpiCard(label: 'Income (1 week)', value: formatMoney(k.incomes1Week), icon: Icons.trending_up, onTap: () => go(Routes.economics)),
           ];
           return LayoutBuilder(builder: (context, c) {
             final cols = c.maxWidth >= 900 ? 4 : (c.maxWidth >= 600 ? 3 : 2);

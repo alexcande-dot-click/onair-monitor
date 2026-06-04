@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/app_info.dart';
 import '../../core/error/api_failure.dart';
 import '../../core/theme/app_colors.dart';
 import '../../providers/providers.dart';
 import '../../services/notification_service.dart';
+import '../about/about_screen.dart' show openUrl;
 
 class SetupScreen extends ConsumerStatefulWidget {
   const SetupScreen({super.key, required this.onAccountAdded});
@@ -104,6 +106,20 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                           width: 18,
                           child: CircularProgressIndicator(strokeWidth: 2))
                       : const Text('Connect'),
+                ),
+                const SizedBox(height: 28),
+                const Text(
+                  'If you encounter any bugs in the application or have feature '
+                  'requests, please do not contact the official OnAir support. '
+                  'Instead, post an issue on our official GitHub repo, and I’ll do '
+                  'my best to improve the app.',
+                  style: TextStyle(color: AppColors.textMuted, fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: () => openUrl(kGithubIssuesUrl),
+                  icon: const Icon(Icons.bug_report, size: 18),
+                  label: const Text('Support'),
                 ),
               ],
             ),

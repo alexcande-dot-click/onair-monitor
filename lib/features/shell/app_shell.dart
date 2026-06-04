@@ -14,11 +14,10 @@ const _navItems = <(String, IconData, String?)>[
   ('Live Map', Icons.map, Routes.liveMap),
   ('Crew', Icons.people, Routes.crew),
   ('Aircraft', Icons.flight, Routes.aircraft),
-  ('Jobs', Icons.assignment, Routes.jobs),
   ('Economics', Icons.bar_chart, Routes.economics),
   ('FBO', Icons.warehouse, Routes.fbo),
   ('Airports', Icons.location_on, Routes.airports),
-  ('About', Icons.info_outline, null),
+  ('About', Icons.info_outline, Routes.about),
 ];
 
 class AppShell extends ConsumerWidget {
@@ -27,13 +26,11 @@ class AppShell extends ConsumerWidget {
     required this.title,
     required this.body,
     required this.onOpenNotifications,
-    this.onAddAccount,
   });
 
   final String title;
   final Widget body;
   final VoidCallback onOpenNotifications;
-  final VoidCallback? onAddAccount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,10 +40,7 @@ class AppShell extends ConsumerWidget {
         );
     final wide = MediaQuery.sizeOf(context).width >= 900;
 
-    final drawer = _DrawerContents(
-      current: title,
-      onAddAccount: onAddAccount ?? () {},
-    );
+    final drawer = _DrawerContents(current: title);
 
     return Scaffold(
       appBar: AppBar(
@@ -78,9 +72,8 @@ class AppShell extends ConsumerWidget {
 }
 
 class _DrawerContents extends StatelessWidget {
-  const _DrawerContents({required this.current, required this.onAddAccount});
+  const _DrawerContents({required this.current});
   final String current;
-  final VoidCallback onAddAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +115,7 @@ class _DrawerContents extends StatelessWidget {
             ],
           ),
         ),
-        AccountSwitcher(onAddAccount: onAddAccount),
+        const AccountSwitcher(),
       ],
     );
   }

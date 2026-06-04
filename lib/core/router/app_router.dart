@@ -1,13 +1,13 @@
-import 'package:flutter/foundation.dart';
+﻿import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/about/about_screen.dart';
 import '../../features/aircraft/aircraft_screen.dart';
 import '../../features/airports/airports_screen.dart';
 import '../../features/crew/crew_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/economics/economics_screen.dart';
 import '../../features/fbo/fbo_screen.dart';
-import '../../features/jobs/jobs_work_orders_screen.dart';
 import '../../features/live_map/live_map_screen.dart';
 import '../../features/notifications/notifications_screen.dart';
 import '../../features/setup/setup_screen.dart';
@@ -47,7 +47,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Dashboard',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const DashboardScreen(),
         ),
       ),
@@ -56,7 +55,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Live Map',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const LiveMapScreen(),
         ),
       ),
@@ -65,7 +63,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Crew',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const CrewScreen(),
         ),
       ),
@@ -74,17 +71,7 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Aircraft',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const AircraftScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Routes.jobs,
-        builder: (context, state) => AppShell(
-          title: 'Jobs',
-          onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
-          body: const JobsWorkOrdersScreen(),
         ),
       ),
       GoRoute(
@@ -92,7 +79,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Economics',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const EconomicsScreen(),
         ),
       ),
@@ -101,7 +87,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'FBO',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const FboScreen(),
         ),
       ),
@@ -110,8 +95,15 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Airports',
           onOpenNotifications: () => context.go(Routes.notifications),
-          onAddAccount: () => context.go(Routes.setup),
           body: const AirportsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.about,
+        builder: (context, state) => AppShell(
+          title: 'About',
+          onOpenNotifications: () => context.go(Routes.notifications),
+          body: const AboutScreen(),
         ),
       ),
       GoRoute(
@@ -119,7 +111,6 @@ GoRouter buildRouter(Ref ref) {
         builder: (context, state) => AppShell(
           title: 'Notifications',
           onOpenNotifications: () {},
-          onAddAccount: () => context.go(Routes.setup),
           body: const NotificationsScreen(),
         ),
       ),

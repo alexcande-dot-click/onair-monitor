@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../providers/providers.dart';
+import '../setup/setup_screen.dart';
 
 class AccountSwitcher extends ConsumerWidget {
-  const AccountSwitcher({super.key, required this.onAddAccount});
-  final VoidCallback onAddAccount;
+  const AccountSwitcher({super.key});
+
+  /// Push the setup form to add another company. Imperative push bypasses the
+  /// router redirect (which sends /setup → dashboard when an account exists).
+  void _addCompany(BuildContext context) {
+    final nav = Navigator.of(context);
+    nav.maybePop(); // close the drawer
+    nav.push(MaterialPageRoute(
+      builder: (_) => SetupScreen(onAccountAdded: () => nav.maybePop()),
+    ));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +61,7 @@ class AccountSwitcher extends ConsumerWidget {
               orElse: () => const SizedBox.shrink(),
             ),
             TextButton.icon(
-              onPressed: onAddAccount,
+              onPressed: () => _addCompany(context),
               icon: const Icon(Icons.add),
               label: const Text('Add company'),
             ),

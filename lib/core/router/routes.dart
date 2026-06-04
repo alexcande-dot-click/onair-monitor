@@ -5,8 +5,8 @@ abstract final class Routes {
   static const liveMap = '/live-map';
   static const crew = '/crew';
   static const aircraft = '/aircraft';
-  static const jobs = '/jobs';
   static const economics = '/economics';
   static const fbo = '/fbo';
   static const airports = '/airports';
+  static const about = '/about';
 }

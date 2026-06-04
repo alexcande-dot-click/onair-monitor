@@ -143,19 +143,31 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
     );
   }
 
-  /// Origin → destination from the aircraft's latest flight (flying only).
+  /// Origin → destination from the aircraft's latest flight (flying only),
+  /// with both ICAOs tappable (open the airport detail).
   Widget _routeRow(WidgetRef ref, String aircraftId) {
     final flight = ref.watch(aircraftLatestFlightProvider(aircraftId));
-    final value = flight.when(
-      loading: () => '…',
-      error: (_, _) => '—',
+    final trailing = flight.when(
+      loading: () => const Text('…'),
+      error: (_, _) => const Text('—'),
       data: (f) {
         final dep = f?.departureAirport?.icao;
         final arr = f?.arrivalIntendedAirport?.icao;
-        return (dep != null && arr != null) ? '$dep → $arr' : '—';
+        if (dep == null || arr == null) return const Text('—');
+        return Row(mainAxisSize: MainAxisSize.min, children: [
+          IcaoLink(dep),
+          const Text(' → '),
+          IcaoLink(arr),
+        ]);
       },
     );
-    return _kv('Route', value);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        const Text('Route', style: TextStyle(color: AppColors.textMuted)),
+        trailing,
+      ]),
+    );
   }
 
   Widget _kv(String k, String v) => Padding(

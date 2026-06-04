@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import '../data/api/onair_api_client.dart';
 import '../data/db/app_database.dart';
 import '../data/repositories/company_repository.dart';
+import '../data/repositories/economics_repository.dart';
 import '../data/repositories/employee_repository.dart';
 import '../data/repositories/fleet_repository.dart';
 import '../data/repositories/flight_repository.dart';
@@ -56,6 +57,9 @@ final jobsRepositoryProvider = Provider<JobsRepository>(
 
 final workOrderRepositoryProvider = Provider<WorkOrderRepository>(
     (ref) => WorkOrderRepository(ref.watch(apiClientProvider)));
+
+final economicsRepositoryProvider = Provider<EconomicsRepository>(
+    (ref) => EconomicsRepository(ref.watch(apiClientProvider)));
 
 final accountManagerProvider = Provider<AccountManager>((ref) => AccountManager(
       db: ref.watch(appDatabaseProvider),

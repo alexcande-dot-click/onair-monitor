@@ -25,7 +25,7 @@ Monitor your whole operation from your phone — fleet, crew, economy, FBOs and 
 
 ## 📥 Installation & Setup
 
-1. **Get the app:** either download the latest `.apk` from the **[Releases page](https://github.com/alexcande/onair-monitor/releases/latest)**, or compile it yourself from the source.
+1. **Get the app:** either download the latest `.apk` from the **[Releases page](https://github.com/alexcande-dot-click/onair-monitor/releases/latest)**, or compile it yourself from the source.
 2. **Install it:** open the `.apk` on your Android device and install. Because it doesn't come from the Play Store, your device may ask you to allow **"install from unknown sources."**
 3. **Get your keys:** open the official OnAir client on your computer → **Settings → Developer options** → copy your **Company ID** and **API key**.
 4. **Connect:** paste both into the setup screen and hit **Connect**. 🎉
@@ -35,7 +35,7 @@ Monitor your whole operation from your phone — fleet, crew, economy, FBOs and 
 
 ## 🛠️ Support & Suggestions
 
-Found a bug or have a feature request? Please **[open an issue](https://github.com/alexcande/onair-monitor/issues)** — I'll do my best to look into it promptly.
+Found a bug or have a feature request? Please **[open an issue](https://github.com/alexcande-dot-click/onair-monitor/issues)** — I'll do my best to look into it promptly.
 
 Prefer to reach me directly? ✉️ **hello@alexcande.click**
 

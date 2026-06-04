@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../domain/models/aircraft.dart';
 import '../../domain/models/employee.dart';
 import '../../providers/providers.dart';
+import '../airports/icao_link.dart';
 import '../live_map/live_map_providers.dart';
 import 'crew_logic.dart';
 import 'crew_providers.dart';
@@ -53,7 +54,13 @@ class EmployeeDetailScreen extends ConsumerWidget {
           _kv('Flight hours (company)', employee.flightHoursInCompany.toStringAsFixed(1)),
           _kv('Per-hour wage', formatMoney(employee.perFlightHourWages)),
           _kv('Weekly guaranteed', formatMoney(employee.weeklyGuaranteedSalary)),
-          _kv('Home airport', employee.homeAirport?.icao ?? '—'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              const Text('Home airport', style: TextStyle(color: AppColors.textMuted)),
+              IcaoLink(employee.homeAirport?.icao),
+            ]),
+          ),
           const Divider(height: 32),
           if (employee.isAssignable) ...[
             Text('Planning assignment',

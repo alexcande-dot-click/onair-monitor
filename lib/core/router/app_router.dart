@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/aircraft/aircraft_screen.dart';
+import '../../features/airports/airports_screen.dart';
 import '../../features/crew/crew_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/economics/economics_screen.dart';
@@ -102,6 +103,15 @@ GoRouter buildRouter(Ref ref) {
           onOpenNotifications: () => context.go(Routes.notifications),
           onAddAccount: () => context.go(Routes.setup),
           body: const FboScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.airports,
+        builder: (context, state) => AppShell(
+          title: 'Airports',
+          onOpenNotifications: () => context.go(Routes.notifications),
+          onAddAccount: () => context.go(Routes.setup),
+          body: const AirportsScreen(),
         ),
       ),
       GoRoute(

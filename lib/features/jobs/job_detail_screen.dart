@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/format/formatters.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/models/mission.dart';
+import '../airports/icao_link.dart';
 import 'jobs_logic.dart';
 
 class JobDetailScreen extends StatelessWidget {
@@ -47,12 +48,14 @@ class JobDetailScreen extends StatelessWidget {
           for (final c in m.cargos)
             _legTile(
                 Icons.inventory_2,
-                '${c.departureAirport?.icao ?? '—'} → ${c.destinationAirport?.icao ?? '—'}',
+                c.departureAirport?.icao,
+                c.destinationAirport?.icao,
                 '${c.weight.round()} lbs ${c.cargoType?.name ?? ''} · ${c.distance.round()} NM'),
           for (final c in m.charters)
             _legTile(
                 Icons.people,
-                '${c.departureAirport?.icao ?? '—'} → ${c.destinationAirport?.icao ?? '—'}',
+                c.departureAirport?.icao,
+                c.destinationAirport?.icao,
                 '${c.passengersNumber} pax · ${c.distance.round()} NM'),
           if (m.cargos.isEmpty && m.charters.isEmpty)
             const Padding(
@@ -64,10 +67,14 @@ class JobDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _legTile(IconData icon, String title, String sub) => ListTile(
+  Widget _legTile(IconData icon, String? dep, String? dest, String sub) => ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Icon(icon, size: 20),
-        title: Text(title),
+        title: Row(children: [
+          IcaoLink(dep),
+          const Text(' → '),
+          IcaoLink(dest),
+        ]),
         subtitle: Text(sub),
       );
 

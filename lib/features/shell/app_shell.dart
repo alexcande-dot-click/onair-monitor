@@ -17,7 +17,7 @@ const _navItems = <(String, IconData, String?)>[
   ('Jobs', Icons.assignment, Routes.jobs),
   ('Economics', Icons.bar_chart, Routes.economics),
   ('FBO', Icons.warehouse, Routes.fbo),
-  ('Airports', Icons.location_on, null),
+  ('Airports', Icons.location_on, Routes.airports),
   ('About', Icons.info_outline, null),
 ];
 

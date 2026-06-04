@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/models/aircraft.dart';
 import '../../providers/providers.dart';
+import '../airports/icao_link.dart';
 import '../crew/crew_providers.dart';
 import 'aircraft_logic.dart';
 import 'aircraft_providers.dart';
@@ -56,7 +57,13 @@ class _AircraftDetailScreenState extends ConsumerState<AircraftDetailScreen> {
             _kv('Ground speed', '${a.groundSpeed.round()} kt'),
             _kv('Heading', '${a.heading.round()}°'),
           ] else
-            _kv('Location', a.currentAirport?.icao ?? '—'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text('Location', style: TextStyle(color: AppColors.textMuted)),
+                IcaoLink(a.currentAirport?.icao),
+              ]),
+            ),
           _kv('Seats', '${a.aircraftType?.seats ?? 0}'),
           if (a.mustDoMaintenance || a.mustDoMaintenanceSoon)
             Padding(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/format/formatters.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/models/fbo.dart';
+import '../airports/icao_link.dart';
 
 class FboDetailScreen extends StatelessWidget {
   const FboDetailScreen({super.key, required this.fbo});
@@ -15,8 +16,13 @@ class FboDetailScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('@${ap?.icao ?? '—'}${ap?.name != null ? ' – ${ap!.name}' : ''}',
-              style: const TextStyle(color: AppColors.textMuted)),
+          Row(children: [
+            const Text('@'),
+            IcaoLink(ap?.icao),
+            if (ap?.name != null)
+              Text(' – ${ap!.name}',
+                  style: const TextStyle(color: AppColors.textMuted)),
+          ]),
           const Divider(height: 32),
           const Text('Fuel', style: TextStyle(fontWeight: FontWeight.w700)),
           _fuelRow('100LL', fbo.fuel100LLQuantity, fbo.fuel100LLCapacity,

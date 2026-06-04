@@ -40,9 +40,7 @@ _Employee _$EmployeeFromJson(Map<String, dynamic> json) => _Employee(
       (json['WeeklyGarantedSalary'] as num?)?.toDouble() ?? 0,
   weight: (json['Weight'] as num?)?.toDouble() ?? 0,
   isOnline: json['IsOnline'] as bool? ?? false,
-  busyUntil: json['BusyUntil'] == null
-      ? null
-      : DateTime.parse(json['BusyUntil'] as String),
+  busyUntil: utcFromJsonNullable(json['BusyUntil']),
   homeAirport: json['HomeAirport'] == null
       ? null
       : Airport.fromJson(json['HomeAirport'] as Map<String, dynamic>),

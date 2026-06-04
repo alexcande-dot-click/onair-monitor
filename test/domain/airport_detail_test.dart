@@ -40,7 +40,7 @@ void main() {
     expect(a.size, 5);
     expect(a.hasLandRunway, isTrue);
     expect(a.magVar, 9.0);
-    expect(a.lastMetarDate, DateTime.parse('2026-06-04T10:00:00'));
+    expect(a.lastMetarDate, DateTime.utc(2026, 6, 4, 10, 0, 0));
     expect(a.runways.single.name, '08');
     expect(a.runways.single.magneticHeading, 81);
     expect(a.runways.single.hasIls, isTrue);

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OnairNotification {
 
-@JsonKey(name: 'Id') String get id;@JsonKey(name: 'Category') int get category;@JsonKey(name: 'Description') String get description;@JsonKey(name: 'ZuluEventTime') DateTime get eventTime;@JsonKey(name: 'IsRead') bool get isRead;@JsonKey(name: 'AircraftId') String? get aircraftId;@JsonKey(name: 'PeopleId') String? get peopleId;@JsonKey(name: 'AirportId') String? get airportId;
+@JsonKey(name: 'Id') String get id;@JsonKey(name: 'Category') int get category;@JsonKey(name: 'Description') String get description;@JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson) DateTime get eventTime;@JsonKey(name: 'IsRead') bool get isRead;@JsonKey(name: 'AircraftId') String? get aircraftId;@JsonKey(name: 'PeopleId') String? get peopleId;@JsonKey(name: 'AirportId') String? get airportId;
 /// Create a copy of OnairNotification
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $OnairNotificationCopyWith<$Res>  {
   factory $OnairNotificationCopyWith(OnairNotification value, $Res Function(OnairNotification) _then) = _$OnairNotificationCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int category,@JsonKey(name: 'Description') String description,@JsonKey(name: 'ZuluEventTime') DateTime eventTime,@JsonKey(name: 'IsRead') bool isRead,@JsonKey(name: 'AircraftId') String? aircraftId,@JsonKey(name: 'PeopleId') String? peopleId,@JsonKey(name: 'AirportId') String? airportId
+@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int category,@JsonKey(name: 'Description') String description,@JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson) DateTime eventTime,@JsonKey(name: 'IsRead') bool isRead,@JsonKey(name: 'AircraftId') String? aircraftId,@JsonKey(name: 'PeopleId') String? peopleId,@JsonKey(name: 'AirportId') String? airportId
 });
 
 
@@ -160,7 +160,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime')  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson)  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OnairNotification() when $default != null:
 return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.isRead,_that.aircraftId,_that.peopleId,_that.airportId);case _:
@@ -181,7 +181,7 @@ return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime')  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson)  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)  $default,) {final _that = this;
 switch (_that) {
 case _OnairNotification():
 return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.isRead,_that.aircraftId,_that.peopleId,_that.airportId);case _:
@@ -201,7 +201,7 @@ return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime')  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int category, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson)  DateTime eventTime, @JsonKey(name: 'IsRead')  bool isRead, @JsonKey(name: 'AircraftId')  String? aircraftId, @JsonKey(name: 'PeopleId')  String? peopleId, @JsonKey(name: 'AirportId')  String? airportId)?  $default,) {final _that = this;
 switch (_that) {
 case _OnairNotification() when $default != null:
 return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.isRead,_that.aircraftId,_that.peopleId,_that.airportId);case _:
@@ -216,13 +216,13 @@ return $default(_that.id,_that.category,_that.description,_that.eventTime,_that.
 @JsonSerializable()
 
 class _OnairNotification implements OnairNotification {
-  const _OnairNotification({@JsonKey(name: 'Id') required this.id, @JsonKey(name: 'Category') this.category = 0, @JsonKey(name: 'Description') this.description = '', @JsonKey(name: 'ZuluEventTime') required this.eventTime, @JsonKey(name: 'IsRead') this.isRead = false, @JsonKey(name: 'AircraftId') this.aircraftId, @JsonKey(name: 'PeopleId') this.peopleId, @JsonKey(name: 'AirportId') this.airportId});
+  const _OnairNotification({@JsonKey(name: 'Id') required this.id, @JsonKey(name: 'Category') this.category = 0, @JsonKey(name: 'Description') this.description = '', @JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson) required this.eventTime, @JsonKey(name: 'IsRead') this.isRead = false, @JsonKey(name: 'AircraftId') this.aircraftId, @JsonKey(name: 'PeopleId') this.peopleId, @JsonKey(name: 'AirportId') this.airportId});
   factory _OnairNotification.fromJson(Map<String, dynamic> json) => _$OnairNotificationFromJson(json);
 
 @override@JsonKey(name: 'Id') final  String id;
 @override@JsonKey(name: 'Category') final  int category;
 @override@JsonKey(name: 'Description') final  String description;
-@override@JsonKey(name: 'ZuluEventTime') final  DateTime eventTime;
+@override@JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson) final  DateTime eventTime;
 @override@JsonKey(name: 'IsRead') final  bool isRead;
 @override@JsonKey(name: 'AircraftId') final  String? aircraftId;
 @override@JsonKey(name: 'PeopleId') final  String? peopleId;
@@ -261,7 +261,7 @@ abstract mixin class _$OnairNotificationCopyWith<$Res> implements $OnairNotifica
   factory _$OnairNotificationCopyWith(_OnairNotification value, $Res Function(_OnairNotification) _then) = __$OnairNotificationCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int category,@JsonKey(name: 'Description') String description,@JsonKey(name: 'ZuluEventTime') DateTime eventTime,@JsonKey(name: 'IsRead') bool isRead,@JsonKey(name: 'AircraftId') String? aircraftId,@JsonKey(name: 'PeopleId') String? peopleId,@JsonKey(name: 'AirportId') String? airportId
+@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int category,@JsonKey(name: 'Description') String description,@JsonKey(name: 'ZuluEventTime', fromJson: utcFromJson) DateTime eventTime,@JsonKey(name: 'IsRead') bool isRead,@JsonKey(name: 'AircraftId') String? aircraftId,@JsonKey(name: 'PeopleId') String? peopleId,@JsonKey(name: 'AirportId') String? airportId
 });
 
 

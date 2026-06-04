@@ -27,9 +27,7 @@ _Airport _$AirportFromJson(Map<String, dynamic> json) => _Airport(
   isMilitary: json['IsMilitary'] as bool? ?? false,
   magVar: (json['MagVar'] as num?)?.toDouble() ?? 0,
   hasLights: json['HasLights'] as bool? ?? false,
-  lastMetarDate: json['LastMETARDate'] == null
-      ? null
-      : DateTime.parse(json['LastMETARDate'] as String),
+  lastMetarDate: utcFromJsonNullable(json['LastMETARDate']),
   runways:
       (json['Runways'] as List<dynamic>?)
           ?.map((e) => Runway.fromJson(e as Map<String, dynamic>))

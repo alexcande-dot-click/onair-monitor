@@ -55,6 +55,6 @@ void main() {
     expect(n.id, '568');
     expect(n.category, 6);
     expect(n.description, 'Job finished. Pay: 394,068.11 Cr.');
-    expect(n.eventTime, DateTime.parse('2026-06-02T10:25:21.187'));
+    expect(n.eventTime, DateTime.utc(2026, 6, 2, 10, 25, 21, 187));
   });
 }

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../core/json/utc.dart';
 import 'aircraft_type.dart'; // AircraftClass
 import 'airport.dart';
 
@@ -52,7 +53,7 @@ abstract class Employee with _$Employee {
     @JsonKey(name: 'WeeklyGarantedSalary') @Default(0) double weeklyGuaranteedSalary,
     @JsonKey(name: 'Weight') @Default(0) double weight,
     @JsonKey(name: 'IsOnline') @Default(false) bool isOnline,
-    @JsonKey(name: 'BusyUntil') DateTime? busyUntil,
+    @JsonKey(name: 'BusyUntil', fromJson: utcFromJsonNullable) DateTime? busyUntil,
     @JsonKey(name: 'HomeAirport') Airport? homeAirport,
     @JsonKey(name: 'CurrentAirport') Airport? currentAirport,
     @JsonKey(name: 'CurrentAircraftId') String? currentAircraftId,

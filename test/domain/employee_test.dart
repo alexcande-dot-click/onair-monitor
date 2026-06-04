@@ -50,7 +50,7 @@ void main() {
     final e = Employee.fromJson(json({}));
     expect(e.certificationShortNames, ['JET', 'SEPL']);
     expect(e.homeAirport?.icao, 'EETN');
-    expect(e.busyUntil, DateTime.parse('2026-06-03T04:04:36.253'));
+    expect(e.busyUntil, DateTime.utc(2026, 6, 3, 4, 4, 36, 253));
     expect(e.currentAircraftId, isNull);
     expect(Employee.fromJson(json({'CurrentAircraftId': 'a1'})).currentAircraftId, 'a1');
   });

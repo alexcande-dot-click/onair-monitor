@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
+import '../../core/json/utc.dart';
 import 'runway.dart';
 
 part 'airport.freezed.dart';
@@ -29,7 +30,7 @@ abstract class Airport with _$Airport {
     @JsonKey(name: 'IsMilitary') @Default(false) bool isMilitary,
     @JsonKey(name: 'MagVar') @Default(0) double magVar,
     @JsonKey(name: 'HasLights') @Default(false) bool hasLights,
-    @JsonKey(name: 'LastMETARDate') DateTime? lastMetarDate,
+    @JsonKey(name: 'LastMETARDate', fromJson: utcFromJsonNullable) DateTime? lastMetarDate,
     @JsonKey(name: 'Runways') @Default([]) List<Runway> runways,
   }) = _Airport;
 

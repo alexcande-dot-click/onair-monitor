@@ -17,7 +17,7 @@ void main() {
         companyId: 'c1', name: 'Air Baltic', airlineCode: 'A', worldId: 'w'));
     await db.upsertAccount(const AccountRow(
         companyId: 'c2', name: 'Sky', airlineCode: 'S', worldId: 'w'));
-    await db.setLastPushedEventTime('c1', DateTime.parse('2026-06-03T10:30:00'));
+    await db.setLastPushedEventTime('c1', DateTime.utc(2026, 6, 3, 10, 30));
 
     final keys = InMemoryKeyStore();
     await keys.write('c1', 'k1');
@@ -47,7 +47,7 @@ void main() {
     expect(posted.length, 1);
     expect(posted.single.body, 'new');
     expect(posted.single.companyId, 'c1');
-    expect(await db.lastPushedEventTime('c1'), DateTime.parse('2026-06-03T11:00:00'));
+    expect(await db.lastPushedEventTime('c1'), DateTime.utc(2026, 6, 3, 11, 0));
     expect(await db.lastPushedEventTime('c2'), isNull);
   });
 }

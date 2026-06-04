@@ -11,7 +11,7 @@ _OnairNotification _$OnairNotificationFromJson(Map<String, dynamic> json) =>
       id: json['Id'] as String,
       category: (json['Category'] as num?)?.toInt() ?? 0,
       description: json['Description'] as String? ?? '',
-      eventTime: DateTime.parse(json['ZuluEventTime'] as String),
+      eventTime: utcFromJson(json['ZuluEventTime']),
       isRead: json['IsRead'] as bool? ?? false,
       aircraftId: json['AircraftId'] as String?,
       peopleId: json['PeopleId'] as String?,

@@ -12,6 +12,7 @@ abstract class Airport with _$Airport {
     @JsonKey(name: 'ICAO') String? icao,
     @JsonKey(name: 'IATA') String? iata,
     @JsonKey(name: 'Name') String? name,
+    @JsonKey(name: 'City') String? city,
     @JsonKey(name: 'Latitude') @Default(0) double latitude,
     @JsonKey(name: 'Longitude') @Default(0) double longitude,
   }) = _Airport;

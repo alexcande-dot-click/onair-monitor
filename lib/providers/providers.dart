@@ -6,6 +6,7 @@ import '../data/db/app_database.dart';
 import '../data/repositories/company_repository.dart';
 import '../data/repositories/economics_repository.dart';
 import '../data/repositories/employee_repository.dart';
+import '../data/repositories/fbo_repository.dart';
 import '../data/repositories/fleet_repository.dart';
 import '../data/repositories/flight_repository.dart';
 import '../data/repositories/jobs_repository.dart';
@@ -60,6 +61,9 @@ final workOrderRepositoryProvider = Provider<WorkOrderRepository>(
 
 final economicsRepositoryProvider = Provider<EconomicsRepository>(
     (ref) => EconomicsRepository(ref.watch(apiClientProvider)));
+
+final fboRepositoryProvider = Provider<FboRepository>(
+    (ref) => FboRepository(ref.watch(apiClientProvider)));
 
 final accountManagerProvider = Provider<AccountManager>((ref) => AccountManager(
       db: ref.watch(appDatabaseProvider),

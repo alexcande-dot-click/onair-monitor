@@ -945,7 +945,7 @@ $AirportCopyWith<$Res>? get destinationAirport {
 /// @nodoc
 mixin _$Mission {
 
-@JsonKey(name: 'Id') String get id;@JsonKey(name: 'Category') int get categoryCode;@JsonKey(name: 'State') int get state;@JsonKey(name: 'MainAirport') Airport? get mainAirport;@JsonKey(name: 'Pay') double get pay;@JsonKey(name: 'RealPay') double get realPay;@JsonKey(name: 'PayLastMinuteBonus') double get payLastMinuteBonus;@JsonKey(name: 'PayCompanyBonus') double get payCompanyBonus;@JsonKey(name: 'Penality') double get penality;@JsonKey(name: 'ReputationImpact') double get reputationImpact;@JsonKey(name: 'XP') int get xp;@JsonKey(name: 'ExpirationDate') DateTime? get expirationDate;@JsonKey(name: 'TotalDistance') double get totalDistance;@JsonKey(name: 'Cargos') List<CargoLeg> get cargos;@JsonKey(name: 'Charters') List<CharterLeg> get charters;
+@JsonKey(name: 'Id') String get id;@JsonKey(name: 'Category') int get categoryCode;@JsonKey(name: 'State') int get state;@JsonKey(name: 'Description') String get description;@JsonKey(name: 'MainAirport') Airport? get mainAirport;@JsonKey(name: 'CompletionDate') DateTime? get completionDate;@JsonKey(name: 'TotalCargoTransported') double get totalCargoTransported;@JsonKey(name: 'TotalPaxTransported') double get totalPaxTransported;@JsonKey(name: 'Pay') double get pay;@JsonKey(name: 'RealPay') double get realPay;@JsonKey(name: 'PayLastMinuteBonus') double get payLastMinuteBonus;@JsonKey(name: 'PayCompanyBonus') double get payCompanyBonus;@JsonKey(name: 'Penality') double get penality;@JsonKey(name: 'ReputationImpact') double get reputationImpact;@JsonKey(name: 'XP') int get xp;@JsonKey(name: 'ExpirationDate') DateTime? get expirationDate;@JsonKey(name: 'TotalDistance') double get totalDistance;@JsonKey(name: 'Cargos') List<CargoLeg> get cargos;@JsonKey(name: 'Charters') List<CharterLeg> get charters;
 /// Create a copy of Mission
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -958,16 +958,16 @@ $MissionCopyWith<Mission> get copyWith => _$MissionCopyWithImpl<Mission>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Mission&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryCode, categoryCode) || other.categoryCode == categoryCode)&&(identical(other.state, state) || other.state == state)&&(identical(other.mainAirport, mainAirport) || other.mainAirport == mainAirport)&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.realPay, realPay) || other.realPay == realPay)&&(identical(other.payLastMinuteBonus, payLastMinuteBonus) || other.payLastMinuteBonus == payLastMinuteBonus)&&(identical(other.payCompanyBonus, payCompanyBonus) || other.payCompanyBonus == payCompanyBonus)&&(identical(other.penality, penality) || other.penality == penality)&&(identical(other.reputationImpact, reputationImpact) || other.reputationImpact == reputationImpact)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.expirationDate, expirationDate) || other.expirationDate == expirationDate)&&(identical(other.totalDistance, totalDistance) || other.totalDistance == totalDistance)&&const DeepCollectionEquality().equals(other.cargos, cargos)&&const DeepCollectionEquality().equals(other.charters, charters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Mission&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryCode, categoryCode) || other.categoryCode == categoryCode)&&(identical(other.state, state) || other.state == state)&&(identical(other.description, description) || other.description == description)&&(identical(other.mainAirport, mainAirport) || other.mainAirport == mainAirport)&&(identical(other.completionDate, completionDate) || other.completionDate == completionDate)&&(identical(other.totalCargoTransported, totalCargoTransported) || other.totalCargoTransported == totalCargoTransported)&&(identical(other.totalPaxTransported, totalPaxTransported) || other.totalPaxTransported == totalPaxTransported)&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.realPay, realPay) || other.realPay == realPay)&&(identical(other.payLastMinuteBonus, payLastMinuteBonus) || other.payLastMinuteBonus == payLastMinuteBonus)&&(identical(other.payCompanyBonus, payCompanyBonus) || other.payCompanyBonus == payCompanyBonus)&&(identical(other.penality, penality) || other.penality == penality)&&(identical(other.reputationImpact, reputationImpact) || other.reputationImpact == reputationImpact)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.expirationDate, expirationDate) || other.expirationDate == expirationDate)&&(identical(other.totalDistance, totalDistance) || other.totalDistance == totalDistance)&&const DeepCollectionEquality().equals(other.cargos, cargos)&&const DeepCollectionEquality().equals(other.charters, charters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,categoryCode,state,mainAirport,pay,realPay,payLastMinuteBonus,payCompanyBonus,penality,reputationImpact,xp,expirationDate,totalDistance,const DeepCollectionEquality().hash(cargos),const DeepCollectionEquality().hash(charters));
+int get hashCode => Object.hashAll([runtimeType,id,categoryCode,state,description,mainAirport,completionDate,totalCargoTransported,totalPaxTransported,pay,realPay,payLastMinuteBonus,payCompanyBonus,penality,reputationImpact,xp,expirationDate,totalDistance,const DeepCollectionEquality().hash(cargos),const DeepCollectionEquality().hash(charters)]);
 
 @override
 String toString() {
-  return 'Mission(id: $id, categoryCode: $categoryCode, state: $state, mainAirport: $mainAirport, pay: $pay, realPay: $realPay, payLastMinuteBonus: $payLastMinuteBonus, payCompanyBonus: $payCompanyBonus, penality: $penality, reputationImpact: $reputationImpact, xp: $xp, expirationDate: $expirationDate, totalDistance: $totalDistance, cargos: $cargos, charters: $charters)';
+  return 'Mission(id: $id, categoryCode: $categoryCode, state: $state, description: $description, mainAirport: $mainAirport, completionDate: $completionDate, totalCargoTransported: $totalCargoTransported, totalPaxTransported: $totalPaxTransported, pay: $pay, realPay: $realPay, payLastMinuteBonus: $payLastMinuteBonus, payCompanyBonus: $payCompanyBonus, penality: $penality, reputationImpact: $reputationImpact, xp: $xp, expirationDate: $expirationDate, totalDistance: $totalDistance, cargos: $cargos, charters: $charters)';
 }
 
 
@@ -978,7 +978,7 @@ abstract mixin class $MissionCopyWith<$Res>  {
   factory $MissionCopyWith(Mission value, $Res Function(Mission) _then) = _$MissionCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int categoryCode,@JsonKey(name: 'State') int state,@JsonKey(name: 'MainAirport') Airport? mainAirport,@JsonKey(name: 'Pay') double pay,@JsonKey(name: 'RealPay') double realPay,@JsonKey(name: 'PayLastMinuteBonus') double payLastMinuteBonus,@JsonKey(name: 'PayCompanyBonus') double payCompanyBonus,@JsonKey(name: 'Penality') double penality,@JsonKey(name: 'ReputationImpact') double reputationImpact,@JsonKey(name: 'XP') int xp,@JsonKey(name: 'ExpirationDate') DateTime? expirationDate,@JsonKey(name: 'TotalDistance') double totalDistance,@JsonKey(name: 'Cargos') List<CargoLeg> cargos,@JsonKey(name: 'Charters') List<CharterLeg> charters
+@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int categoryCode,@JsonKey(name: 'State') int state,@JsonKey(name: 'Description') String description,@JsonKey(name: 'MainAirport') Airport? mainAirport,@JsonKey(name: 'CompletionDate') DateTime? completionDate,@JsonKey(name: 'TotalCargoTransported') double totalCargoTransported,@JsonKey(name: 'TotalPaxTransported') double totalPaxTransported,@JsonKey(name: 'Pay') double pay,@JsonKey(name: 'RealPay') double realPay,@JsonKey(name: 'PayLastMinuteBonus') double payLastMinuteBonus,@JsonKey(name: 'PayCompanyBonus') double payCompanyBonus,@JsonKey(name: 'Penality') double penality,@JsonKey(name: 'ReputationImpact') double reputationImpact,@JsonKey(name: 'XP') int xp,@JsonKey(name: 'ExpirationDate') DateTime? expirationDate,@JsonKey(name: 'TotalDistance') double totalDistance,@JsonKey(name: 'Cargos') List<CargoLeg> cargos,@JsonKey(name: 'Charters') List<CharterLeg> charters
 });
 
 
@@ -995,13 +995,17 @@ class _$MissionCopyWithImpl<$Res>
 
 /// Create a copy of Mission
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? categoryCode = null,Object? state = null,Object? mainAirport = freezed,Object? pay = null,Object? realPay = null,Object? payLastMinuteBonus = null,Object? payCompanyBonus = null,Object? penality = null,Object? reputationImpact = null,Object? xp = null,Object? expirationDate = freezed,Object? totalDistance = null,Object? cargos = null,Object? charters = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? categoryCode = null,Object? state = null,Object? description = null,Object? mainAirport = freezed,Object? completionDate = freezed,Object? totalCargoTransported = null,Object? totalPaxTransported = null,Object? pay = null,Object? realPay = null,Object? payLastMinuteBonus = null,Object? payCompanyBonus = null,Object? penality = null,Object? reputationImpact = null,Object? xp = null,Object? expirationDate = freezed,Object? totalDistance = null,Object? cargos = null,Object? charters = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,categoryCode: null == categoryCode ? _self.categoryCode : categoryCode // ignore: cast_nullable_to_non_nullable
 as int,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
-as int,mainAirport: freezed == mainAirport ? _self.mainAirport : mainAirport // ignore: cast_nullable_to_non_nullable
-as Airport?,pay: null == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
+as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,mainAirport: freezed == mainAirport ? _self.mainAirport : mainAirport // ignore: cast_nullable_to_non_nullable
+as Airport?,completionDate: freezed == completionDate ? _self.completionDate : completionDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,totalCargoTransported: null == totalCargoTransported ? _self.totalCargoTransported : totalCargoTransported // ignore: cast_nullable_to_non_nullable
+as double,totalPaxTransported: null == totalPaxTransported ? _self.totalPaxTransported : totalPaxTransported // ignore: cast_nullable_to_non_nullable
+as double,pay: null == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
 as double,realPay: null == realPay ? _self.realPay : realPay // ignore: cast_nullable_to_non_nullable
 as double,payLastMinuteBonus: null == payLastMinuteBonus ? _self.payLastMinuteBonus : payLastMinuteBonus // ignore: cast_nullable_to_non_nullable
 as double,payCompanyBonus: null == payCompanyBonus ? _self.payCompanyBonus : payCompanyBonus // ignore: cast_nullable_to_non_nullable
@@ -1109,10 +1113,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'CompletionDate')  DateTime? completionDate, @JsonKey(name: 'TotalCargoTransported')  double totalCargoTransported, @JsonKey(name: 'TotalPaxTransported')  double totalPaxTransported, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Mission() when $default != null:
-return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
+return $default(_that.id,_that.categoryCode,_that.state,_that.description,_that.mainAirport,_that.completionDate,_that.totalCargoTransported,_that.totalPaxTransported,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
   return orElse();
 
 }
@@ -1130,10 +1134,10 @@ return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'CompletionDate')  DateTime? completionDate, @JsonKey(name: 'TotalCargoTransported')  double totalCargoTransported, @JsonKey(name: 'TotalPaxTransported')  double totalPaxTransported, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)  $default,) {final _that = this;
 switch (_that) {
 case _Mission():
-return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
+return $default(_that.id,_that.categoryCode,_that.state,_that.description,_that.mainAirport,_that.completionDate,_that.totalCargoTransported,_that.totalPaxTransported,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1150,10 +1154,10 @@ return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Id')  String id, @JsonKey(name: 'Category')  int categoryCode, @JsonKey(name: 'State')  int state, @JsonKey(name: 'Description')  String description, @JsonKey(name: 'MainAirport')  Airport? mainAirport, @JsonKey(name: 'CompletionDate')  DateTime? completionDate, @JsonKey(name: 'TotalCargoTransported')  double totalCargoTransported, @JsonKey(name: 'TotalPaxTransported')  double totalPaxTransported, @JsonKey(name: 'Pay')  double pay, @JsonKey(name: 'RealPay')  double realPay, @JsonKey(name: 'PayLastMinuteBonus')  double payLastMinuteBonus, @JsonKey(name: 'PayCompanyBonus')  double payCompanyBonus, @JsonKey(name: 'Penality')  double penality, @JsonKey(name: 'ReputationImpact')  double reputationImpact, @JsonKey(name: 'XP')  int xp, @JsonKey(name: 'ExpirationDate')  DateTime? expirationDate, @JsonKey(name: 'TotalDistance')  double totalDistance, @JsonKey(name: 'Cargos')  List<CargoLeg> cargos, @JsonKey(name: 'Charters')  List<CharterLeg> charters)?  $default,) {final _that = this;
 switch (_that) {
 case _Mission() when $default != null:
-return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
+return $default(_that.id,_that.categoryCode,_that.state,_that.description,_that.mainAirport,_that.completionDate,_that.totalCargoTransported,_that.totalPaxTransported,_that.pay,_that.realPay,_that.payLastMinuteBonus,_that.payCompanyBonus,_that.penality,_that.reputationImpact,_that.xp,_that.expirationDate,_that.totalDistance,_that.cargos,_that.charters);case _:
   return null;
 
 }
@@ -1165,13 +1169,17 @@ return $default(_that.id,_that.categoryCode,_that.state,_that.mainAirport,_that.
 @JsonSerializable()
 
 class _Mission extends Mission {
-  const _Mission({@JsonKey(name: 'Id') required this.id, @JsonKey(name: 'Category') this.categoryCode = 0, @JsonKey(name: 'State') this.state = 0, @JsonKey(name: 'MainAirport') this.mainAirport, @JsonKey(name: 'Pay') this.pay = 0, @JsonKey(name: 'RealPay') this.realPay = 0, @JsonKey(name: 'PayLastMinuteBonus') this.payLastMinuteBonus = 0, @JsonKey(name: 'PayCompanyBonus') this.payCompanyBonus = 0, @JsonKey(name: 'Penality') this.penality = 0, @JsonKey(name: 'ReputationImpact') this.reputationImpact = 0, @JsonKey(name: 'XP') this.xp = 0, @JsonKey(name: 'ExpirationDate') this.expirationDate, @JsonKey(name: 'TotalDistance') this.totalDistance = 0, @JsonKey(name: 'Cargos') final  List<CargoLeg> cargos = const [], @JsonKey(name: 'Charters') final  List<CharterLeg> charters = const []}): _cargos = cargos,_charters = charters,super._();
+  const _Mission({@JsonKey(name: 'Id') required this.id, @JsonKey(name: 'Category') this.categoryCode = 0, @JsonKey(name: 'State') this.state = 0, @JsonKey(name: 'Description') this.description = '', @JsonKey(name: 'MainAirport') this.mainAirport, @JsonKey(name: 'CompletionDate') this.completionDate, @JsonKey(name: 'TotalCargoTransported') this.totalCargoTransported = 0, @JsonKey(name: 'TotalPaxTransported') this.totalPaxTransported = 0, @JsonKey(name: 'Pay') this.pay = 0, @JsonKey(name: 'RealPay') this.realPay = 0, @JsonKey(name: 'PayLastMinuteBonus') this.payLastMinuteBonus = 0, @JsonKey(name: 'PayCompanyBonus') this.payCompanyBonus = 0, @JsonKey(name: 'Penality') this.penality = 0, @JsonKey(name: 'ReputationImpact') this.reputationImpact = 0, @JsonKey(name: 'XP') this.xp = 0, @JsonKey(name: 'ExpirationDate') this.expirationDate, @JsonKey(name: 'TotalDistance') this.totalDistance = 0, @JsonKey(name: 'Cargos') final  List<CargoLeg> cargos = const [], @JsonKey(name: 'Charters') final  List<CharterLeg> charters = const []}): _cargos = cargos,_charters = charters,super._();
   factory _Mission.fromJson(Map<String, dynamic> json) => _$MissionFromJson(json);
 
 @override@JsonKey(name: 'Id') final  String id;
 @override@JsonKey(name: 'Category') final  int categoryCode;
 @override@JsonKey(name: 'State') final  int state;
+@override@JsonKey(name: 'Description') final  String description;
 @override@JsonKey(name: 'MainAirport') final  Airport? mainAirport;
+@override@JsonKey(name: 'CompletionDate') final  DateTime? completionDate;
+@override@JsonKey(name: 'TotalCargoTransported') final  double totalCargoTransported;
+@override@JsonKey(name: 'TotalPaxTransported') final  double totalPaxTransported;
 @override@JsonKey(name: 'Pay') final  double pay;
 @override@JsonKey(name: 'RealPay') final  double realPay;
 @override@JsonKey(name: 'PayLastMinuteBonus') final  double payLastMinuteBonus;
@@ -1209,16 +1217,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Mission&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryCode, categoryCode) || other.categoryCode == categoryCode)&&(identical(other.state, state) || other.state == state)&&(identical(other.mainAirport, mainAirport) || other.mainAirport == mainAirport)&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.realPay, realPay) || other.realPay == realPay)&&(identical(other.payLastMinuteBonus, payLastMinuteBonus) || other.payLastMinuteBonus == payLastMinuteBonus)&&(identical(other.payCompanyBonus, payCompanyBonus) || other.payCompanyBonus == payCompanyBonus)&&(identical(other.penality, penality) || other.penality == penality)&&(identical(other.reputationImpact, reputationImpact) || other.reputationImpact == reputationImpact)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.expirationDate, expirationDate) || other.expirationDate == expirationDate)&&(identical(other.totalDistance, totalDistance) || other.totalDistance == totalDistance)&&const DeepCollectionEquality().equals(other._cargos, _cargos)&&const DeepCollectionEquality().equals(other._charters, _charters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Mission&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryCode, categoryCode) || other.categoryCode == categoryCode)&&(identical(other.state, state) || other.state == state)&&(identical(other.description, description) || other.description == description)&&(identical(other.mainAirport, mainAirport) || other.mainAirport == mainAirport)&&(identical(other.completionDate, completionDate) || other.completionDate == completionDate)&&(identical(other.totalCargoTransported, totalCargoTransported) || other.totalCargoTransported == totalCargoTransported)&&(identical(other.totalPaxTransported, totalPaxTransported) || other.totalPaxTransported == totalPaxTransported)&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.realPay, realPay) || other.realPay == realPay)&&(identical(other.payLastMinuteBonus, payLastMinuteBonus) || other.payLastMinuteBonus == payLastMinuteBonus)&&(identical(other.payCompanyBonus, payCompanyBonus) || other.payCompanyBonus == payCompanyBonus)&&(identical(other.penality, penality) || other.penality == penality)&&(identical(other.reputationImpact, reputationImpact) || other.reputationImpact == reputationImpact)&&(identical(other.xp, xp) || other.xp == xp)&&(identical(other.expirationDate, expirationDate) || other.expirationDate == expirationDate)&&(identical(other.totalDistance, totalDistance) || other.totalDistance == totalDistance)&&const DeepCollectionEquality().equals(other._cargos, _cargos)&&const DeepCollectionEquality().equals(other._charters, _charters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,categoryCode,state,mainAirport,pay,realPay,payLastMinuteBonus,payCompanyBonus,penality,reputationImpact,xp,expirationDate,totalDistance,const DeepCollectionEquality().hash(_cargos),const DeepCollectionEquality().hash(_charters));
+int get hashCode => Object.hashAll([runtimeType,id,categoryCode,state,description,mainAirport,completionDate,totalCargoTransported,totalPaxTransported,pay,realPay,payLastMinuteBonus,payCompanyBonus,penality,reputationImpact,xp,expirationDate,totalDistance,const DeepCollectionEquality().hash(_cargos),const DeepCollectionEquality().hash(_charters)]);
 
 @override
 String toString() {
-  return 'Mission(id: $id, categoryCode: $categoryCode, state: $state, mainAirport: $mainAirport, pay: $pay, realPay: $realPay, payLastMinuteBonus: $payLastMinuteBonus, payCompanyBonus: $payCompanyBonus, penality: $penality, reputationImpact: $reputationImpact, xp: $xp, expirationDate: $expirationDate, totalDistance: $totalDistance, cargos: $cargos, charters: $charters)';
+  return 'Mission(id: $id, categoryCode: $categoryCode, state: $state, description: $description, mainAirport: $mainAirport, completionDate: $completionDate, totalCargoTransported: $totalCargoTransported, totalPaxTransported: $totalPaxTransported, pay: $pay, realPay: $realPay, payLastMinuteBonus: $payLastMinuteBonus, payCompanyBonus: $payCompanyBonus, penality: $penality, reputationImpact: $reputationImpact, xp: $xp, expirationDate: $expirationDate, totalDistance: $totalDistance, cargos: $cargos, charters: $charters)';
 }
 
 
@@ -1229,7 +1237,7 @@ abstract mixin class _$MissionCopyWith<$Res> implements $MissionCopyWith<$Res> {
   factory _$MissionCopyWith(_Mission value, $Res Function(_Mission) _then) = __$MissionCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int categoryCode,@JsonKey(name: 'State') int state,@JsonKey(name: 'MainAirport') Airport? mainAirport,@JsonKey(name: 'Pay') double pay,@JsonKey(name: 'RealPay') double realPay,@JsonKey(name: 'PayLastMinuteBonus') double payLastMinuteBonus,@JsonKey(name: 'PayCompanyBonus') double payCompanyBonus,@JsonKey(name: 'Penality') double penality,@JsonKey(name: 'ReputationImpact') double reputationImpact,@JsonKey(name: 'XP') int xp,@JsonKey(name: 'ExpirationDate') DateTime? expirationDate,@JsonKey(name: 'TotalDistance') double totalDistance,@JsonKey(name: 'Cargos') List<CargoLeg> cargos,@JsonKey(name: 'Charters') List<CharterLeg> charters
+@JsonKey(name: 'Id') String id,@JsonKey(name: 'Category') int categoryCode,@JsonKey(name: 'State') int state,@JsonKey(name: 'Description') String description,@JsonKey(name: 'MainAirport') Airport? mainAirport,@JsonKey(name: 'CompletionDate') DateTime? completionDate,@JsonKey(name: 'TotalCargoTransported') double totalCargoTransported,@JsonKey(name: 'TotalPaxTransported') double totalPaxTransported,@JsonKey(name: 'Pay') double pay,@JsonKey(name: 'RealPay') double realPay,@JsonKey(name: 'PayLastMinuteBonus') double payLastMinuteBonus,@JsonKey(name: 'PayCompanyBonus') double payCompanyBonus,@JsonKey(name: 'Penality') double penality,@JsonKey(name: 'ReputationImpact') double reputationImpact,@JsonKey(name: 'XP') int xp,@JsonKey(name: 'ExpirationDate') DateTime? expirationDate,@JsonKey(name: 'TotalDistance') double totalDistance,@JsonKey(name: 'Cargos') List<CargoLeg> cargos,@JsonKey(name: 'Charters') List<CharterLeg> charters
 });
 
 
@@ -1246,13 +1254,17 @@ class __$MissionCopyWithImpl<$Res>
 
 /// Create a copy of Mission
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? categoryCode = null,Object? state = null,Object? mainAirport = freezed,Object? pay = null,Object? realPay = null,Object? payLastMinuteBonus = null,Object? payCompanyBonus = null,Object? penality = null,Object? reputationImpact = null,Object? xp = null,Object? expirationDate = freezed,Object? totalDistance = null,Object? cargos = null,Object? charters = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? categoryCode = null,Object? state = null,Object? description = null,Object? mainAirport = freezed,Object? completionDate = freezed,Object? totalCargoTransported = null,Object? totalPaxTransported = null,Object? pay = null,Object? realPay = null,Object? payLastMinuteBonus = null,Object? payCompanyBonus = null,Object? penality = null,Object? reputationImpact = null,Object? xp = null,Object? expirationDate = freezed,Object? totalDistance = null,Object? cargos = null,Object? charters = null,}) {
   return _then(_Mission(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,categoryCode: null == categoryCode ? _self.categoryCode : categoryCode // ignore: cast_nullable_to_non_nullable
 as int,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
-as int,mainAirport: freezed == mainAirport ? _self.mainAirport : mainAirport // ignore: cast_nullable_to_non_nullable
-as Airport?,pay: null == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
+as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,mainAirport: freezed == mainAirport ? _self.mainAirport : mainAirport // ignore: cast_nullable_to_non_nullable
+as Airport?,completionDate: freezed == completionDate ? _self.completionDate : completionDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,totalCargoTransported: null == totalCargoTransported ? _self.totalCargoTransported : totalCargoTransported // ignore: cast_nullable_to_non_nullable
+as double,totalPaxTransported: null == totalPaxTransported ? _self.totalPaxTransported : totalPaxTransported // ignore: cast_nullable_to_non_nullable
+as double,pay: null == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
 as double,realPay: null == realPay ? _self.realPay : realPay // ignore: cast_nullable_to_non_nullable
 as double,payLastMinuteBonus: null == payLastMinuteBonus ? _self.payLastMinuteBonus : payLastMinuteBonus // ignore: cast_nullable_to_non_nullable
 as double,payCompanyBonus: null == payCompanyBonus ? _self.payCompanyBonus : payCompanyBonus // ignore: cast_nullable_to_non_nullable

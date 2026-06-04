@@ -17,6 +17,12 @@ class JobDetailScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (m.description.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(m.description,
+                  style: Theme.of(context).textTheme.titleMedium),
+            ),
           _kv('State', m.state == 1 ? 'Completed' : 'Pending'),
           _kv('Pay', formatMoney(m.effectivePay)),
           if (m.payLastMinuteBonus > 0)
@@ -29,7 +35,13 @@ class JobDetailScreen extends StatelessWidget {
           if (exp != null)
             _kv('Expires',
                 exp.isAfter(DateTime.now()) ? 'in ${relativeUntil(exp)}' : 'expired'),
+          if (m.completionDate != null)
+            _kv('Completed', m.completionDate!.toString().split('.').first),
           _kv('Total distance', '${m.totalDistance.round()} NM'),
+          if (m.totalCargoTransported > 0)
+            _kv('Cargo transported', '${m.totalCargoTransported.round()} lbs'),
+          if (m.totalPaxTransported > 0)
+            _kv('PAX transported', '${m.totalPaxTransported.round()}'),
           const Divider(height: 32),
           Text('Legs', style: Theme.of(context).textTheme.titleMedium),
           for (final c in m.cargos)

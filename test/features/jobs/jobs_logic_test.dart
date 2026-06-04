@@ -5,11 +5,14 @@ import 'package:onairmonitor/domain/models/mission.dart';
 import 'package:onairmonitor/domain/models/work_order.dart';
 import 'package:onairmonitor/features/jobs/jobs_logic.dart';
 
-Mission job(String id, int cat, {String icao = 'EETN', String? exp}) => Mission(
+Mission job(String id, int cat,
+        {String icao = 'EETN', String? exp, String? comp}) =>
+    Mission(
       id: id,
       categoryCode: cat,
       mainAirport: Airport(icao: icao),
       expirationDate: exp == null ? null : DateTime.parse(exp),
+      completionDate: comp == null ? null : DateTime.parse(comp),
     );
 
 WorkOrder wo(String id, int status, {bool ticking = false, String name = ''}) =>
@@ -28,14 +31,35 @@ void main() {
     expect(filterJobs(all, query: 'charter').single.id, '2');
   });
 
-  test('sortPending by expiry asc (nulls last); sortCompleted newest-first', () {
+  test('sortPending by expiry asc (nulls last)', () {
     final all = [
       job('a', 0, exp: '2026-06-05T00:00:00'),
       job('b', 0),
       job('c', 0, exp: '2026-06-04T00:00:00'),
     ];
     expect(sortPending(all).map((m) => m.id), ['c', 'a', 'b']);
-    expect(sortCompleted(all).map((m) => m.id), ['a', 'c', 'b']);
+  });
+
+  test('sortCompleted by completionDate newest-first (nulls last)', () {
+    final all = [
+      job('a', 0, comp: '2026-06-01T00:00:00'),
+      job('b', 0),
+      job('c', 0, comp: '2026-06-03T00:00:00'),
+    ];
+    expect(sortCompleted(all).map((m) => m.id), ['c', 'a', 'b']);
+  });
+
+  test('routeSummary: real DEP->DEST from legs; description fallback', () {
+    const withLegs = Mission(id: 'r', cargos: [
+      CargoLeg(
+        departureAirport: Airport(icao: 'EETN'),
+        destinationAirport: Airport(icao: 'ESNU'),
+      )
+    ]);
+    expect(routeSummary(withLegs), 'EETN → ESNU');
+
+    const completed = Mission(id: 'c', description: 'Flight #3221');
+    expect(routeSummary(completed), 'Flight #3221');
   });
 
   test('filterWorkOrders by status + name/tail', () {

@@ -7,10 +7,28 @@ part of 'work_order.dart';
 // **************************************************************************
 
 _WorkOrderAction _$WorkOrderActionFromJson(Map<String, dynamic> json) =>
-    _WorkOrderAction(name: json['Name'] as String?);
+    _WorkOrderAction(
+      order: (json['Order'] as num?)?.toInt() ?? 0,
+      step: (json['Step'] as num?)?.toInt() ?? 0,
+      statusCode: (json['Status'] as num?)?.toInt() ?? 0,
+      fuelToLoadGallons: (json['FuelToLoadGallons'] as num?)?.toDouble() ?? 0,
+      startedTime: json['StartedTime'] == null
+          ? null
+          : DateTime.parse(json['StartedTime'] as String),
+      endedTime: json['EndedTime'] == null
+          ? null
+          : DateTime.parse(json['EndedTime'] as String),
+    );
 
 Map<String, dynamic> _$WorkOrderActionToJson(_WorkOrderAction instance) =>
-    <String, dynamic>{'Name': instance.name};
+    <String, dynamic>{
+      'Order': instance.order,
+      'Step': instance.step,
+      'Status': instance.statusCode,
+      'FuelToLoadGallons': instance.fuelToLoadGallons,
+      'StartedTime': instance.startedTime?.toIso8601String(),
+      'EndedTime': instance.endedTime?.toIso8601String(),
+    };
 
 _WorkOrder _$WorkOrderFromJson(Map<String, dynamic> json) => _WorkOrder(
   id: json['Id'] as String,

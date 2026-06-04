@@ -21,10 +21,19 @@ enum WorkOrderStatus {
 
 @freezed
 abstract class WorkOrderAction with _$WorkOrderAction {
-  const factory WorkOrderAction({@JsonKey(name: 'Name') String? name}) =
-      _WorkOrderAction;
+  const WorkOrderAction._();
+  const factory WorkOrderAction({
+    @JsonKey(name: 'Order') @Default(0) int order,
+    @JsonKey(name: 'Step') @Default(0) int step,
+    @JsonKey(name: 'Status') @Default(0) int statusCode,
+    @JsonKey(name: 'FuelToLoadGallons') @Default(0) double fuelToLoadGallons,
+    @JsonKey(name: 'StartedTime') DateTime? startedTime,
+    @JsonKey(name: 'EndedTime') DateTime? endedTime,
+  }) = _WorkOrderAction;
   factory WorkOrderAction.fromJson(Map<String, dynamic> json) =>
       _$WorkOrderActionFromJson(json);
+
+  WorkOrderStatus get status => WorkOrderStatus.fromCode(statusCode);
 }
 
 @freezed

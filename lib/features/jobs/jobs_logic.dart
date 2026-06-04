@@ -23,15 +23,25 @@ IconData missionCategoryIcon(MissionCategory c) => switch (c) {
       MissionCategory.other => Icons.assignment,
     };
 
+String statusEnumLabel(WorkOrderStatus s) => switch (s) {
+      WorkOrderStatus.pending => 'Pending',
+      WorkOrderStatus.inProgress => 'In progress',
+      WorkOrderStatus.completed => 'Completed',
+      WorkOrderStatus.cancelled => 'Cancelled',
+      WorkOrderStatus.unknown => '—',
+    };
+
 String workOrderStatusLabel(WorkOrder w) {
   if (w.isTicking && w.status == WorkOrderStatus.inProgress) return 'Ongoing';
-  return switch (w.status) {
-    WorkOrderStatus.pending => 'Pending',
-    WorkOrderStatus.inProgress => 'In progress',
-    WorkOrderStatus.completed => 'Completed',
-    WorkOrderStatus.cancelled => 'Cancelled',
-    WorkOrderStatus.unknown => '—',
-  };
+  return statusEnumLabel(w.status);
+}
+
+String workOrderActionLabel(WorkOrderAction a) => 'Action ${a.order}';
+
+String workOrderActionSubtitle(WorkOrderAction a) {
+  final parts = <String>[statusEnumLabel(a.status)];
+  if (a.fuelToLoadGallons > 0) parts.add('${a.fuelToLoadGallons.round()} gal fuel');
+  return parts.join(' · ');
 }
 
 Color workOrderStatusColor(WorkOrder w) => switch (w.status) {
@@ -82,9 +92,9 @@ int _expAsc(Mission a, Mission b) {
 List<Mission> sortPending(List<Mission> all) => [...all]..sort(_expAsc);
 
 List<Mission> sortCompleted(List<Mission> all) => [...all]..sort((a, b) {
-      final ea = a.expirationDate, eb = b.expirationDate;
+      final ea = a.completionDate, eb = b.completionDate;
       if (ea == null && eb == null) return 0;
-      if (ea == null) return 1;
+      if (ea == null) return 1; // nulls last
       if (eb == null) return -1;
       return eb.compareTo(ea); // newest-first
     });
@@ -104,8 +114,33 @@ List<WorkOrder> filterWorkOrders(
   }).toList();
 }
 
+/// Best display title for a mission row: a real DEP → DEST route from its legs,
+/// falling back to the main airport, then the description (completed jobs).
 String routeSummary(Mission m) {
-  final main = m.mainAirport?.icao ?? '—';
-  final hasLegs = m.cargos.isNotEmpty || m.charters.isNotEmpty;
-  return hasLegs ? '$main → …' : main;
+  final deps = <String>{};
+  final dests = <String>{};
+  for (final c in m.cargos) {
+    final d = c.departureAirport?.icao;
+    final e = c.destinationAirport?.icao;
+    if (d != null) deps.add(d);
+    if (e != null) dests.add(e);
+  }
+  for (final c in m.charters) {
+    final d = c.departureAirport?.icao;
+    final e = c.destinationAirport?.icao;
+    if (d != null) deps.add(d);
+    if (e != null) dests.add(e);
+  }
+  if (dests.isNotEmpty) {
+    final dep = deps.length == 1
+        ? deps.first
+        : (m.mainAirport?.icao ?? (deps.isNotEmpty ? deps.first : '?'));
+    final destList = dests.toList();
+    final destStr =
+        destList.length <= 2 ? destList.join('/') : '${destList.take(2).join('/')}+';
+    return '$dep → $destStr';
+  }
+  if (m.mainAirport?.icao != null) return m.mainAirport!.icao!;
+  if (m.description.isNotEmpty) return m.description;
+  return '—';
 }

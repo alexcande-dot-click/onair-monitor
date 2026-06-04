@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WorkOrderAction {
 
-@JsonKey(name: 'Name') String? get name;
+@JsonKey(name: 'Order') int get order;@JsonKey(name: 'Step') int get step;@JsonKey(name: 'Status') int get statusCode;@JsonKey(name: 'FuelToLoadGallons') double get fuelToLoadGallons;@JsonKey(name: 'StartedTime') DateTime? get startedTime;@JsonKey(name: 'EndedTime') DateTime? get endedTime;
 /// Create a copy of WorkOrderAction
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $WorkOrderActionCopyWith<WorkOrderAction> get copyWith => _$WorkOrderActionCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkOrderAction&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkOrderAction&&(identical(other.order, order) || other.order == order)&&(identical(other.step, step) || other.step == step)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.fuelToLoadGallons, fuelToLoadGallons) || other.fuelToLoadGallons == fuelToLoadGallons)&&(identical(other.startedTime, startedTime) || other.startedTime == startedTime)&&(identical(other.endedTime, endedTime) || other.endedTime == endedTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name);
+int get hashCode => Object.hash(runtimeType,order,step,statusCode,fuelToLoadGallons,startedTime,endedTime);
 
 @override
 String toString() {
-  return 'WorkOrderAction(name: $name)';
+  return 'WorkOrderAction(order: $order, step: $step, statusCode: $statusCode, fuelToLoadGallons: $fuelToLoadGallons, startedTime: $startedTime, endedTime: $endedTime)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $WorkOrderActionCopyWith<$Res>  {
   factory $WorkOrderActionCopyWith(WorkOrderAction value, $Res Function(WorkOrderAction) _then) = _$WorkOrderActionCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'Name') String? name
+@JsonKey(name: 'Order') int order,@JsonKey(name: 'Step') int step,@JsonKey(name: 'Status') int statusCode,@JsonKey(name: 'FuelToLoadGallons') double fuelToLoadGallons,@JsonKey(name: 'StartedTime') DateTime? startedTime,@JsonKey(name: 'EndedTime') DateTime? endedTime
 });
 
 
@@ -65,10 +65,15 @@ class _$WorkOrderActionCopyWithImpl<$Res>
 
 /// Create a copy of WorkOrderAction
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? order = null,Object? step = null,Object? statusCode = null,Object? fuelToLoadGallons = null,Object? startedTime = freezed,Object? endedTime = freezed,}) {
   return _then(_self.copyWith(
-name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,
+order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as int,step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
+as int,statusCode: null == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int,fuelToLoadGallons: null == fuelToLoadGallons ? _self.fuelToLoadGallons : fuelToLoadGallons // ignore: cast_nullable_to_non_nullable
+as double,startedTime: freezed == startedTime ? _self.startedTime : startedTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,endedTime: freezed == endedTime ? _self.endedTime : endedTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -153,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Name')  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'Order')  int order, @JsonKey(name: 'Step')  int step, @JsonKey(name: 'Status')  int statusCode, @JsonKey(name: 'FuelToLoadGallons')  double fuelToLoadGallons, @JsonKey(name: 'StartedTime')  DateTime? startedTime, @JsonKey(name: 'EndedTime')  DateTime? endedTime)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WorkOrderAction() when $default != null:
-return $default(_that.name);case _:
+return $default(_that.order,_that.step,_that.statusCode,_that.fuelToLoadGallons,_that.startedTime,_that.endedTime);case _:
   return orElse();
 
 }
@@ -174,10 +179,10 @@ return $default(_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Name')  String? name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'Order')  int order, @JsonKey(name: 'Step')  int step, @JsonKey(name: 'Status')  int statusCode, @JsonKey(name: 'FuelToLoadGallons')  double fuelToLoadGallons, @JsonKey(name: 'StartedTime')  DateTime? startedTime, @JsonKey(name: 'EndedTime')  DateTime? endedTime)  $default,) {final _that = this;
 switch (_that) {
 case _WorkOrderAction():
-return $default(_that.name);case _:
+return $default(_that.order,_that.step,_that.statusCode,_that.fuelToLoadGallons,_that.startedTime,_that.endedTime);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +199,10 @@ return $default(_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Name')  String? name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'Order')  int order, @JsonKey(name: 'Step')  int step, @JsonKey(name: 'Status')  int statusCode, @JsonKey(name: 'FuelToLoadGallons')  double fuelToLoadGallons, @JsonKey(name: 'StartedTime')  DateTime? startedTime, @JsonKey(name: 'EndedTime')  DateTime? endedTime)?  $default,) {final _that = this;
 switch (_that) {
 case _WorkOrderAction() when $default != null:
-return $default(_that.name);case _:
+return $default(_that.order,_that.step,_that.statusCode,_that.fuelToLoadGallons,_that.startedTime,_that.endedTime);case _:
   return null;
 
 }
@@ -208,11 +213,16 @@ return $default(_that.name);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _WorkOrderAction implements WorkOrderAction {
-  const _WorkOrderAction({@JsonKey(name: 'Name') this.name});
+class _WorkOrderAction extends WorkOrderAction {
+  const _WorkOrderAction({@JsonKey(name: 'Order') this.order = 0, @JsonKey(name: 'Step') this.step = 0, @JsonKey(name: 'Status') this.statusCode = 0, @JsonKey(name: 'FuelToLoadGallons') this.fuelToLoadGallons = 0, @JsonKey(name: 'StartedTime') this.startedTime, @JsonKey(name: 'EndedTime') this.endedTime}): super._();
   factory _WorkOrderAction.fromJson(Map<String, dynamic> json) => _$WorkOrderActionFromJson(json);
 
-@override@JsonKey(name: 'Name') final  String? name;
+@override@JsonKey(name: 'Order') final  int order;
+@override@JsonKey(name: 'Step') final  int step;
+@override@JsonKey(name: 'Status') final  int statusCode;
+@override@JsonKey(name: 'FuelToLoadGallons') final  double fuelToLoadGallons;
+@override@JsonKey(name: 'StartedTime') final  DateTime? startedTime;
+@override@JsonKey(name: 'EndedTime') final  DateTime? endedTime;
 
 /// Create a copy of WorkOrderAction
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkOrderAction&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkOrderAction&&(identical(other.order, order) || other.order == order)&&(identical(other.step, step) || other.step == step)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.fuelToLoadGallons, fuelToLoadGallons) || other.fuelToLoadGallons == fuelToLoadGallons)&&(identical(other.startedTime, startedTime) || other.startedTime == startedTime)&&(identical(other.endedTime, endedTime) || other.endedTime == endedTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name);
+int get hashCode => Object.hash(runtimeType,order,step,statusCode,fuelToLoadGallons,startedTime,endedTime);
 
 @override
 String toString() {
-  return 'WorkOrderAction(name: $name)';
+  return 'WorkOrderAction(order: $order, step: $step, statusCode: $statusCode, fuelToLoadGallons: $fuelToLoadGallons, startedTime: $startedTime, endedTime: $endedTime)';
 }
 
 
@@ -247,7 +257,7 @@ abstract mixin class _$WorkOrderActionCopyWith<$Res> implements $WorkOrderAction
   factory _$WorkOrderActionCopyWith(_WorkOrderAction value, $Res Function(_WorkOrderAction) _then) = __$WorkOrderActionCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'Name') String? name
+@JsonKey(name: 'Order') int order,@JsonKey(name: 'Step') int step,@JsonKey(name: 'Status') int statusCode,@JsonKey(name: 'FuelToLoadGallons') double fuelToLoadGallons,@JsonKey(name: 'StartedTime') DateTime? startedTime,@JsonKey(name: 'EndedTime') DateTime? endedTime
 });
 
 
@@ -264,10 +274,15 @@ class __$WorkOrderActionCopyWithImpl<$Res>
 
 /// Create a copy of WorkOrderAction
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? order = null,Object? step = null,Object? statusCode = null,Object? fuelToLoadGallons = null,Object? startedTime = freezed,Object? endedTime = freezed,}) {
   return _then(_WorkOrderAction(
-name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,
+order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as int,step: null == step ? _self.step : step // ignore: cast_nullable_to_non_nullable
+as int,statusCode: null == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int,fuelToLoadGallons: null == fuelToLoadGallons ? _self.fuelToLoadGallons : fuelToLoadGallons // ignore: cast_nullable_to_non_nullable
+as double,startedTime: freezed == startedTime ? _self.startedTime : startedTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,endedTime: freezed == endedTime ? _self.endedTime : endedTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
